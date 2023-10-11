@@ -1,13 +1,14 @@
 // SurfaceLoss.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
-#include <iostream>
+#include "PlanarWavevector.h"
+#include "Test.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
-
+    Test test;
+    test.runTests();
     std::cout << "Enter anything to close." << std::endl;
+
     std::string input;
     std::cin >> input;
 }
