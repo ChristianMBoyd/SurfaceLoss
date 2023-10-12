@@ -1,10 +1,12 @@
 // SurfaceLoss.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
+#include <iostream>
 #include "Test.h"
+#include "TestInputStructs.h"
 
 int main()
 {
-    Test test;
+    TestInputStructs test;
     test.runTests();
     std::cout << "Enter anything to close." << std::endl;
     std::string anythingInputToClose;

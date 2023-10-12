@@ -141,14 +141,18 @@
   <ItemGroup>
     <ClCompile Include="SurfaceLoss.cpp" />
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="TestInputStructs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DielectricConstant.h" />
     <ClInclude Include="Mass.h" />
     <ClInclude Include="ModelParameters.h" />
     <ClInclude Include="NumericalError.h" />
+    <ClInclude Include="NumericalParameters.h" />
+    <ClInclude Include="Parameters.h" />
     <ClInclude Include="PlanarWavevector.h" />
     <ClInclude Include="Test.h" />
+    <ClInclude Include="TestInputStructs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
