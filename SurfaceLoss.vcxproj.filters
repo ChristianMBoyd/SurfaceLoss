@@ -32,5 +32,14 @@
     <ClInclude Include="NumericalError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Mass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DielectricConstant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
