@@ -12,5 +12,5 @@ struct Parameters {
 	ModelParameters modelParameters;
 	NumericalParameters numericalParameters;
 
-	Parameters() {} // each of previous have valid default constructors
+	Parameters() {} // each of previous have valid/favorable default constructors
 };

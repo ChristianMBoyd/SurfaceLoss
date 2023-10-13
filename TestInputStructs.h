@@ -9,24 +9,24 @@ private:
 	DielectricConstant eps;
 	ModelParameters modelParameters;
 	NumericalParameters numericalParameters;
-	Parameters parameters;
+	Parameters parameters; // only a struct of default-constructed above objects
 
 public:
 	TestInputStructs();
 	void runTests();
 
 	void testPlanarWavevector();
-	bool planarWavevectorWorks();
+	void checkPlanarWavevectorFunctions();
 
 	void testMass();
-	bool massWorks();
+	void checkMassFunctions();
 
 	void testDielectricConstant();
-	bool dielectricConstantWorks();
+	void checkDielectricConstantFunctions();
 
 	void testModelParameters();
-	bool modelParametersWorks();
+	void checkModelParametersFunctions();
 
 	void testNumericalParameters();
-	bool numericalParametersWorks();
+	void checkNumericalParametersFunctions();
 };

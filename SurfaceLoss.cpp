@@ -3,11 +3,23 @@
 #include <iostream>
 #include "Test.h"
 #include "TestInputStructs.h"
+#include "TestLinearAlgebra.h"
+
+void holdOutputWindow();
 
 int main()
 {
-    TestInputStructs test;
-    test.runTests();
+    TestLinearAlgebra linearAlgebraTest;
+    TestInputStructs inputStructTest;
+    
+    linearAlgebraTest.runTests();
+    inputStructTest.runTests();
+
+    holdOutputWindow();
+    return 0;
+}
+
+void holdOutputWindow() {
     std::cout << "Enter anything to close." << std::endl;
     std::string anythingInputToClose;
     std::cin >> anythingInputToClose;

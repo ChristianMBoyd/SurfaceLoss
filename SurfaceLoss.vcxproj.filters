@@ -24,6 +24,9 @@
     <ClCompile Include="TestInputStructs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestLinearAlgebra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlanarWavevector.h">
@@ -51,6 +54,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestInputStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearAlgebraObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLinearAlgebra.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

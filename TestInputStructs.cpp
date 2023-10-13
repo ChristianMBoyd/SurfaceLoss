@@ -3,7 +3,7 @@
 TestInputStructs::TestInputStructs() {}
 
 void TestInputStructs::runTests() {
-	std::cout << "Testing...\n";
+	std::cout << "Testing input structs...\n";
 
 	testPlanarWavevector();
 	testMass();
@@ -21,7 +21,7 @@ void TestInputStructs::runTests() {
 
 void TestInputStructs::testPlanarWavevector() {
 	try {
-		planarWavevectorWorks();
+		checkPlanarWavevectorFunctions();
 	}
 	catch (NumericalError error) {
 		std::cout << "Struct PlanarWavevector has failed its tests.  Reason: ";
@@ -30,7 +30,7 @@ void TestInputStructs::testPlanarWavevector() {
 	}
 }
 
-bool TestInputStructs::planarWavevectorWorks() {
+void TestInputStructs::checkPlanarWavevectorFunctions() {
 	double qx = 0.1;
 	double qy = 0.01;
 	double magnitude = std::sqrt(qx * qx + qy * qy);
@@ -48,13 +48,11 @@ bool TestInputStructs::planarWavevectorWorks() {
 	if (!magnitude_Passed) {
 		throw NumericalError("magnitude differs from input!\n");
 	}
-
-	return true;
 }
 
 void TestInputStructs::testMass() {
 	try {
-		massWorks();
+		checkMassFunctions();
 	}
 	catch (NumericalError error) {
 		std::cout << "Struct Mass has failed its tests.  Reason: ";
@@ -63,7 +61,7 @@ void TestInputStructs::testMass() {
 	}
 }
 
-bool TestInputStructs::massWorks() {
+void TestInputStructs::checkMassFunctions() {
 	double mx = 0.3;
 	double mz = 10.4;
 	double my = 1.0 / mx;
@@ -85,13 +83,11 @@ bool TestInputStructs::massWorks() {
 	if (!normalizedPlanarComponents) {
 		throw NumericalError("mx and my do not multiply to 1 (unit mass)!\n");
 	}
-
-	return true;
 }
 
 void TestInputStructs::testDielectricConstant() {
 	try {
-		dielectricConstantWorks();
+		checkDielectricConstantFunctions();
 	}
 	catch (NumericalError error) {
 		std::cout << "Struct DielectricConstant has failed its tests.  Reason: ";
@@ -100,7 +96,7 @@ void TestInputStructs::testDielectricConstant() {
 	}
 }
 
-bool TestInputStructs::dielectricConstantWorks() {
+void TestInputStructs::checkDielectricConstantFunctions() {
 	double epsx = 13.5;
 	double epsy = 18.5;
 	double epsz = 8.5;
@@ -118,13 +114,11 @@ bool TestInputStructs::dielectricConstantWorks() {
 	if (!epsz_Passed) {
 		throw NumericalError("epsz differs from input!\n");
 	}
-
-	return true;
 }
 
 void TestInputStructs::testModelParameters() {
 	try {
-		modelParametersWorks();
+		checkModelParametersFunctions();
 	}
 	catch (NumericalError error) {
 		std::cout << "Struct ModelParameters has failed its tests.  Reason: ";
@@ -133,7 +127,7 @@ void TestInputStructs::testModelParameters() {
 	}
 }
 
-bool TestInputStructs::modelParametersWorks() {
+void TestInputStructs::checkModelParametersFunctions() {
 	double frequency = 1.1;
 	double linewidth = 0.11;
 	double plasmaToFermiRatio = 1.2;
@@ -151,13 +145,11 @@ bool TestInputStructs::modelParametersWorks() {
 	if (!plasmaToFermiRatio_Passed) {
 		throw NumericalError("plasmaToFermiRatio differs from input!\n");
 	}
-
-	return true;
 }
 
 void TestInputStructs::testNumericalParameters() {
 	try {
-		numericalParametersWorks();
+		checkNumericalParametersFunctions();
 	}
 	catch (NumericalError error) {
 		std::cout << "Struct NumericalParameters has failed its tests.  Reason: ";
@@ -166,7 +158,7 @@ void TestInputStructs::testNumericalParameters() {
 	}
 }
 
-bool TestInputStructs::numericalParametersWorks() {
+void TestInputStructs::checkNumericalParametersFunctions() {
 	double L = 50;
 	double cutoffWavevector = 4.5;
 	numericalParameters = NumericalParameters(L, cutoffWavevector);
@@ -179,6 +171,4 @@ bool TestInputStructs::numericalParametersWorks() {
 	if (!cutoffWavevector_Passed) {
 		throw NumericalError("cutoffWavevector differs from input!\n");
 	}
-
-	return true;
 }

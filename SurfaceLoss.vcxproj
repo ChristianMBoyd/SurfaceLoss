@@ -142,9 +142,12 @@
     <ClCompile Include="SurfaceLoss.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TestInputStructs.cpp" />
+    <ClCompile Include="TestLinearAlgebra.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DielectricConstant.h" />
+    <ClInclude Include="LinearAlgebraObject.h" />
+    <ClInclude Include="TestLinearAlgebra.h" />
     <ClInclude Include="Mass.h" />
     <ClInclude Include="ModelParameters.h" />
     <ClInclude Include="NumericalError.h" />
