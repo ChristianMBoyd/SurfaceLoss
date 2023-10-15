@@ -21,8 +21,8 @@ int main()
 
 void holdOutputWindow() {
     std::cout << "Enter anything to close." << std::endl;
-    std::string anythingInputToClose;
-    std::cin >> anythingInputToClose;
+    std::string inputNeededToClose;
+    std::cin >> inputNeededToClose;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

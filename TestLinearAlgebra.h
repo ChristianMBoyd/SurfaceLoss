@@ -4,7 +4,7 @@
 
 class TestLinearAlgebra : public Test {
 private:
-	LinearAlgebraObject baseObject;
+	LinearAlgebraObject linearAlgebraObject;
 
 public:
 	TestLinearAlgebra();
@@ -12,4 +12,5 @@ public:
 
 	void testOperatorOverloads();
 	void checkOperatorOverloadFunctions();
+	void checkCopyAssignment();
 };

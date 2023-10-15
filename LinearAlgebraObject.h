@@ -7,19 +7,16 @@
 #include "Eigen/Dense"
 // To do: include MKL
 
-// This is a wrapper class incorporating the necessary linear algebra methods using Eigen to handle the details
-// All details are built out of an internal Eigen::MatrixXd object, with custom function wrappers as appropriate
+// This is an Eigen wrapper, which accesses all of the linear algebra functions via an internal Eigen::MatrixXcd object
 
 struct LinearAlgebraObject {
-protected:
 	Eigen::MatrixXcd matrixExpression; // base matrix object, used for matrices, vectors, solvers, etc.
 
-public:
 	LinearAlgebraObject() {}
 
-	// allow underlying object to be constructed from arbitrary expressions
-	template <typename genericMatrixType>
-	LinearAlgebraObject(const Eigen::MatrixBase<genericMatrixType>& genericMatrixExpression) : matrixExpression(genericMatrixExpression) {}
+	// allow underlying object to be constructed from arbitrary Eigen::MatrixBase expressions
+	template <typename derivedMatrixType>
+	LinearAlgebraObject(const Eigen::MatrixBase<derivedMatrixType>& genericMatrixExpression) : matrixExpression(genericMatrixExpression) {}
 
 	// operator overloads: defer to Eigen::MatrixXd underlying operations
 	LinearAlgebraObject operator+(const LinearAlgebraObject& nextLinearAlgebraObject) {
