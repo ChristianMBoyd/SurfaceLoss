@@ -31,3 +31,13 @@ struct LinearAlgebraObject {
 		return LinearAlgebraObject(this->matrixExpression - nextLinearAlgebraObject.matrixExpression);
 	}
 };
+
+// multiplication is isolated to support promotion to scalar types via Eigen
+template<typename scalarType>
+LinearAlgebraObject operator*(const scalarType& leftScalar, const LinearAlgebraObject& rightObject) {
+	return LinearAlgebraObject(leftScalar * rightObject.matrixExpression);
+}
+template<typename scalarType>
+LinearAlgebraObject operator*(const LinearAlgebraObject& leftObject, const scalarType& rightScalar) {
+	return operator*(rightScalar, leftObject);
+}
