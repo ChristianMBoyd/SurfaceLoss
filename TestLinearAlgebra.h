@@ -3,7 +3,7 @@
 #include "LinearAlgebraObject.h"
 
 class TestLinearAlgebra : public Test {
-private:
+protected:
 	LinearAlgebraObject linearAlgebraObject;
 
 public:

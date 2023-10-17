@@ -20,7 +20,7 @@ void TestLinearAlgebra::testOperatorOverloads() {
 		checkOperatorOverloadFunctions();
 	}
 	catch (NumericalError error) {
-		std::cout << "Struct LinearAlgebraObject has failed its tests.  Reason: ";
+		std::cout << "Class LinearAlgebraObject has failed its tests.  Reason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}
