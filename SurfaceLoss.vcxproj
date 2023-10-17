@@ -143,10 +143,13 @@
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TestInputStructs.cpp" />
     <ClCompile Include="TestLinearAlgebra.cpp" />
+    <ClCompile Include="TestMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DielectricConstant.h" />
+    <ClInclude Include="TestMatrix.h" />
     <ClInclude Include="LinearAlgebraObject.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="TestLinearAlgebra.h" />
     <ClInclude Include="Mass.h" />
     <ClInclude Include="ModelParameters.h" />

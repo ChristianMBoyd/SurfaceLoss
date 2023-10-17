@@ -43,18 +43,18 @@ void TestLinearAlgebra::checkCopyAssignment() {
 	// initialize matrix2
 	matrix2(0, 0) = matrix1(0, 0);
 
-	linearAlgebraObject = LinearAlgebraObject(matrix1);
+	linearAlgebraObject = LinearAlgebraObject::createFromEigenObject(matrix1);
 	bool matrixExpressionEqualsMatrix1 = twoEigenObjectsAreEqual(matrix1, linearAlgebraObject.matrixExpression);
 	if (!matrixExpressionEqualsMatrix1) {
 		throw NumericalError("matrixExpression differs from constructor input!\n");
 	}
-	linearAlgebraObject = LinearAlgebraObject(matrix1 + 2.0 * matrix1);
+	linearAlgebraObject = LinearAlgebraObject::createFromEigenObject(matrix1 + 2.0 * matrix1);
 	matrix1 += 2.0 * matrix1;
 	bool matrixExpressionResolvedEigenExpression = twoEigenObjectsAreEqual(matrix1, linearAlgebraObject.matrixExpression);
 	if (!matrixExpressionResolvedEigenExpression) {
 		throw NumericalError("LinearAlgebraObject did not resolve Eigen matrix expression in copy constructor!\n");
 	}
-	linearAlgebraObject = LinearAlgebraObject(matrix2);
+	linearAlgebraObject = LinearAlgebraObject::createFromEigenObject(matrix2);
 	bool matrixExpressionDynamicallyResized = twoEigenObjectsAreEqual(matrix2, linearAlgebraObject.matrixExpression);
 	if (!matrixExpressionDynamicallyResized) {
 		throw NumericalError("matrixExpression was not able to dynamically resize!\n");
@@ -93,9 +93,9 @@ void TestLinearAlgebra::checkAddition() {
 	matrix(1, 0) = std::complex<double>(1.0, -2.0);
 	matrix(1, 1) = 2.0;
 
-	linearAlgebraObject = LinearAlgebraObject(matrix);
+	linearAlgebraObject = LinearAlgebraObject::createFromEigenObject(matrix);
 	LinearAlgebraObject objectFromAddition = linearAlgebraObject + linearAlgebraObject;
-	linearAlgebraObject = LinearAlgebraObject(matrix + matrix);
+	linearAlgebraObject = LinearAlgebraObject::createFromEigenObject(matrix + matrix);
 
 	bool additionWorks = twoLinearAlgebraObjectsAreEqual(linearAlgebraObject, objectFromAddition);
 	if (!additionWorks) {
@@ -115,7 +115,8 @@ void TestLinearAlgebra::checkSubtraction() {
 	matrix2(1, 1) = 5.0;
 	matrix2(0, 1) = std::complex<double>(2.0, 3.0);
 
-	LinearAlgebraObject matrix1Object(matrix1), matrix2Object(matrix2), differenceObject;
+	LinearAlgebraObject matrix1Object = LinearAlgebraObject::createFromEigenObject(matrix1);
+	LinearAlgebraObject matrix2Object = LinearAlgebraObject::createFromEigenObject(matrix2);
 	linearAlgebraObject = matrix1Object - matrix2Object;
 
 	bool subtractionWorks = twoEigenObjectsAreEqual(matrix1 - matrix2, linearAlgebraObject.matrixExpression);
@@ -138,7 +139,7 @@ void TestLinearAlgebra::checkScalarMultiplication() {
 	matrix(1, 1) = 1.5;
 
 	// integer test
-	linearAlgebraObject = 2 * LinearAlgebraObject(matrix);
+	linearAlgebraObject = 2 * LinearAlgebraObject::createFromEigenObject(matrix);
 	Eigen::MatrixXcd matrixProduct = 2 * matrix;
 	bool integerProductWorks = twoEigenObjectsAreEqual(matrixProduct, linearAlgebraObject.matrixExpression);
 	if (!integerProductWorks) {
@@ -148,7 +149,7 @@ void TestLinearAlgebra::checkScalarMultiplication() {
 	// complex test
 	auto complexScalar = std::complex<double>(2.0, 4.234546);
 	matrixProduct = complexScalar * matrix;
-	linearAlgebraObject = complexScalar * LinearAlgebraObject(matrix);
+	linearAlgebraObject = complexScalar * LinearAlgebraObject::createFromEigenObject(matrix);
 	bool complexProductWorks = twoEigenObjectsAreEqual(matrixProduct, linearAlgebraObject.matrixExpression);
 	if (!complexProductWorks) {
 		throw NumericalError("scalar (complex) multiplication of LinearAlgebraObject does not equal Eigen operation!\n");
@@ -165,7 +166,9 @@ void TestLinearAlgebra::checkMatrixMultiplication() {
 	matrix2 = std::complex<double>(-1.3, 0.04) * matrix1;
 
 	Eigen::MatrixXcd matrixProduct = matrix1 * matrix2;
-	LinearAlgebraObject object1(matrix1), object2(matrix2), objectProduct(matrix1 * matrix2);
+	LinearAlgebraObject object1 = LinearAlgebraObject::createFromEigenObject(matrix1);
+	LinearAlgebraObject object2 = LinearAlgebraObject::createFromEigenObject(matrix2);
+	LinearAlgebraObject objectProduct = LinearAlgebraObject::createFromEigenObject(matrix1 * matrix2);
 	linearAlgebraObject = object1 * object2;
 
 	bool matrixProductsAreEqual = twoLinearAlgebraObjectsAreEqual(linearAlgebraObject, objectProduct);

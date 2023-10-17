@@ -14,31 +14,35 @@ struct LinearAlgebraObject {
 
 	LinearAlgebraObject() {}
 
-	// allow underlying object to be constructed from arbitrary Eigen::MatrixBase expressions
+	// static method to avoid template conflicts with multiplication overloads [avoid Eigen->LinearAlgebraObject(Eigen) in function template]
 	template <typename derivedMatrixType>
-	LinearAlgebraObject(const Eigen::MatrixBase<derivedMatrixType>& genericMatrixExpression) : matrixExpression(genericMatrixExpression) {}
+	static LinearAlgebraObject createFromEigenObject(const Eigen::MatrixBase<derivedMatrixType>& genericMatrixExpression) {
+		LinearAlgebraObject linearAlgebraObject;
+		linearAlgebraObject.matrixExpression = genericMatrixExpression;
+		return linearAlgebraObject;
+	}
 
-	// operator overloads: defer to Eigen::MatrixXd underlying operations
+	// operator overloads: defer matrix operations to Eigen 
 	LinearAlgebraObject operator+(const LinearAlgebraObject& nextLinearAlgebraObject) {
-		return LinearAlgebraObject(this->matrixExpression + nextLinearAlgebraObject.matrixExpression);
+		return createFromEigenObject(this->matrixExpression + nextLinearAlgebraObject.matrixExpression);
 	}
 
 	LinearAlgebraObject operator*(const LinearAlgebraObject& nextLinearAlgebraObject) {
-		return LinearAlgebraObject(this->matrixExpression * nextLinearAlgebraObject.matrixExpression);
+		return createFromEigenObject(this->matrixExpression * nextLinearAlgebraObject.matrixExpression);
 	}
 
 	LinearAlgebraObject operator-(const LinearAlgebraObject& nextLinearAlgebraObject) {
-		return LinearAlgebraObject(this->matrixExpression - nextLinearAlgebraObject.matrixExpression);
+		return createFromEigenObject(this->matrixExpression - nextLinearAlgebraObject.matrixExpression);
 	}
 };
 
-// defer scalar multiplication to Eigen
+// also defer scalar multiplication to Eigen
 template<class scalarClass>
 LinearAlgebraObject operator*(const scalarClass& leftScalar, const LinearAlgebraObject& rightObject) {
-	return LinearAlgebraObject(leftScalar * rightObject.matrixExpression);
+	return LinearAlgebraObject::createFromEigenObject(leftScalar * rightObject.matrixExpression);
 }
 
 template<typename derivedMatrixType>
 LinearAlgebraObject operator*(const Eigen::MatrixBase<derivedMatrixType>& leftMatrixExpression, const LinearAlgebraObject& rightObject) {
-	return LinearAlgebraObject(leftMatrixExpression * rightObject.matrixExpression);
+	return LinearAlgebraObject::createFromEigenObject(leftMatrixExpression * rightObject.matrixExpression);
 }
