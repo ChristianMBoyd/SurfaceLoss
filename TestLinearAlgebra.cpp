@@ -130,9 +130,47 @@ void TestLinearAlgebra::checkMultiplication() {
 }
 
 void TestLinearAlgebra::checkScalarMultiplication() {
-	// check: int, double, complex double
+	Eigen::MatrixXcd matrix(2, 2);
+	// initialize
+	matrix(0, 0) = std::complex<double>(1.0, 2.0);
+	matrix(0, 1) = std::complex<double>(0, 1.0);
+	matrix(1, 0) = std::complex<double>(1.0, 0);
+	matrix(1, 1) = 1.5;
+
+	// integer test
+	linearAlgebraObject = 2 * LinearAlgebraObject(matrix);
+	Eigen::MatrixXcd matrixProduct = 2 * matrix;
+	bool integerProductWorks = twoEigenObjectsAreEqual(matrixProduct, linearAlgebraObject.matrixExpression);
+	if (!integerProductWorks) {
+		throw NumericalError("scalar (int) multiplication of LinearAlgebraObject does not equal Eigen operation!\n");
+	}
+
+	// complex test
+	auto complexScalar = std::complex<double>(2.0, 4.234546);
+	matrixProduct = complexScalar * matrix;
+	linearAlgebraObject = complexScalar * LinearAlgebraObject(matrix);
+	bool complexProductWorks = twoEigenObjectsAreEqual(matrixProduct, linearAlgebraObject.matrixExpression);
+	if (!complexProductWorks) {
+		throw NumericalError("scalar (complex) multiplication of LinearAlgebraObject does not equal Eigen operation!\n");
+	}
 }
 
 void TestLinearAlgebra::checkMatrixMultiplication() {
-	// check: scalar (1 row and 1 column), vector, and matrix
+	Eigen::MatrixXcd matrix1(2, 2), matrix2(2, 2);
+	// initialize
+	matrix1(0, 0) = std::complex<double>(2.0, 3.0);
+	matrix1(1, 0) = std::complex<double>(-1.0, 2.0);
+	matrix1(0, 1) = std::complex<double>(1.0, -2.5) * matrix1(0, 0);
+	matrix1(1, 1) = std::complex<double>(-5.1, 0.01);
+	matrix2 = std::complex<double>(-1.3, 0.04) * matrix1;
+
+	Eigen::MatrixXcd matrixProduct = matrix1 * matrix2;
+	LinearAlgebraObject object1(matrix1), object2(matrix2), objectProduct(matrix1 * matrix2);
+	linearAlgebraObject = object1 * object2;
+
+	bool matrixProductsAreEqual = twoLinearAlgebraObjectsAreEqual(linearAlgebraObject, objectProduct);
+	if (!matrixProductsAreEqual) {
+		throw NumericalError("matrix product of LinearAlgebraObjects does not equal Eigen expression!\n");
+	}
+
 }

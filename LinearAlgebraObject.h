@@ -10,7 +10,7 @@
 // This is an Eigen wrapper, which accesses all of the linear algebra functions via an internal Eigen::MatrixXcd object
 
 struct LinearAlgebraObject {
-	Eigen::MatrixXcd matrixExpression; // base matrix object, used for matrices, vectors, solvers, etc.
+	Eigen::MatrixXcd matrixExpression; // base matrix object used for matrices, vectors, solvers, etc.
 
 	LinearAlgebraObject() {}
 
@@ -32,12 +32,13 @@ struct LinearAlgebraObject {
 	}
 };
 
-// multiplication is isolated to support promotion to scalar types via Eigen
-template<typename scalarType>
-LinearAlgebraObject operator*(const scalarType& leftScalar, const LinearAlgebraObject& rightObject) {
+// defer scalar multiplication to Eigen
+template<class scalarClass>
+LinearAlgebraObject operator*(const scalarClass& leftScalar, const LinearAlgebraObject& rightObject) {
 	return LinearAlgebraObject(leftScalar * rightObject.matrixExpression);
 }
-template<typename scalarType>
-LinearAlgebraObject operator*(const LinearAlgebraObject& leftObject, const scalarType& rightScalar) {
-	return operator*(rightScalar, leftObject);
+
+template<typename derivedMatrixType>
+LinearAlgebraObject operator*(const Eigen::MatrixBase<derivedMatrixType>& leftMatrixExpression, const LinearAlgebraObject& rightObject) {
+	return LinearAlgebraObject(leftMatrixExpression * rightObject.matrixExpression);
 }
