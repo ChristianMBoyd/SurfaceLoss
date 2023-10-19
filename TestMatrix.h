@@ -14,7 +14,18 @@ private:
 	void checkConstructorFunctions();
 
 	
-	// To do: implement below!
-	void testOperatorsOverloads();
+	// To do: fill in below!
+	void testOperatorOverloads();
+	void checkAddition();
+	void checkSubtraction();
+	void checkScalarMultiplication();
+	void checkMatrixMultiplication();
+	void checkEquality();
+
 	void testAdditionalFunctions();
+	void checkAccessors();
+	void checkDimensions();
+	void checkIsEqualToDoublePrecision();
+
+	// To do: fill in checkEquality() and checkIsEqualToDoublePrecision() for respective tests
 };

@@ -1,5 +1,3 @@
-// SurfaceLoss.cpp : This file contains the 'main' function. Program execution begins and ends there.
-
 #include <iostream>
 #include "Test.h"
 #include "TestInputStructs.h"
@@ -7,19 +5,23 @@
 #include "TestMatrix.h"
 
 void holdOutputWindow();
+void testComponents();
 
 int main()
 {
+    testComponents();
+    holdOutputWindow();
+    return 0;
+}
+
+void testComponents() {
     TestMatrix matrixTest;
     TestLinearAlgebra linearAlgebraTest;
     TestInputStructs inputStructTest;
-    
+
     matrixTest.runTests();
     linearAlgebraTest.runTests();
     inputStructTest.runTests();
-
-    holdOutputWindow();
-    return 0;
 }
 
 void holdOutputWindow() {
@@ -27,6 +29,3 @@ void holdOutputWindow() {
     std::string inputNeededToClose;
     std::cin >> inputNeededToClose;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu

@@ -18,9 +18,9 @@ public:
 	template <typename derivedMatrixType>
 	static LinearAlgebraObject createFromEigenObject(const Eigen::MatrixBase<derivedMatrixType>& genericMatrixExpression);
 	// operator overloads: defer matrix operations to Eigen 
-	LinearAlgebraObject operator+(const LinearAlgebraObject& nextLinearAlgebraObject);
-	LinearAlgebraObject operator*(const LinearAlgebraObject& nextLinearAlgebraObject);
-	LinearAlgebraObject operator-(const LinearAlgebraObject& nextLinearAlgebraObject);
+	LinearAlgebraObject operator+(const LinearAlgebraObject& nextLinearAlgebraObject) const;
+	LinearAlgebraObject operator*(const LinearAlgebraObject& nextLinearAlgebraObject) const;
+	LinearAlgebraObject operator-(const LinearAlgebraObject& nextLinearAlgebraObject) const;
 };
 
 // defer scalar multiplication to Eigen
@@ -29,7 +29,7 @@ LinearAlgebraObject operator*(const scalarClass& leftScalar, const LinearAlgebra
 template<class scalarClass>
 LinearAlgebraObject operator*(const LinearAlgebraObject& leftObject, const scalarClass& rightScalar);
 
-// template function definitions below
+// template function definitions:
 
 template <typename derivedMatrixType>
 LinearAlgebraObject LinearAlgebraObject::createFromEigenObject(const Eigen::MatrixBase<derivedMatrixType>& genericMatrixExpression) {
