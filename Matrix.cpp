@@ -56,6 +56,15 @@ unsigned int Matrix::size() {
 	return numberOfRows() * numberOfColumns();
 }
 
+void Matrix::transposeInPlace() {
+	matrixExpression.transposeInPlace();
+}
+
+Matrix Matrix::returnMatrixTranspose() {
+	auto transposedObject = LinearAlgebraObject::createFromEigenObject(matrixExpression.transpose());
+	return Matrix(transposedObject);
+}
+
 // non-member operator overloads
 
 bool operator==(const Matrix& leftMatrix, const Matrix& rightMatrix) {

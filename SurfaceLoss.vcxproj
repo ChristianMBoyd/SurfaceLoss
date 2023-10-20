@@ -146,6 +146,7 @@
     <ClCompile Include="TestInputStructs.cpp" />
     <ClCompile Include="TestLinearAlgebra.cpp" />
     <ClCompile Include="TestMatrix.cpp" />
+    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DielectricConstant.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="PlanarWavevector.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TestInputStructs.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

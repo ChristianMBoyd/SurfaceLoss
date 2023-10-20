@@ -13,8 +13,6 @@ private:
 	void testConstructors();
 	void checkConstructorFunctions();
 
-	
-	// To do: fill in below!
 	void testOperatorOverloads();
 	void checkAddition();
 	void checkSubtraction();
@@ -22,10 +20,12 @@ private:
 	void checkMatrixMultiplication();
 	void checkEquality();
 
-	void testAdditionalFunctions();
-	void checkAccessors();
+	void testPropertyFunctions();
 	void checkDimensions();
 	void checkIsEqualToDoublePrecision();
 
-	// To do: fill in checkEquality() and checkIsEqualToDoublePrecision() for respective tests
+	void testManipulationFunctions();
+	void checkAccessors();
+	void checkTransposeInPlace();
+	void checkTranspose();
 };

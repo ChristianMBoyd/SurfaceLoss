@@ -8,7 +8,8 @@ void TestMatrix::runTests() {
 
 	testConstructors();
 	testOperatorOverloads();
-	testAdditionalFunctions();
+	testPropertyFunctions();
+	testManipulationFunctions();
 
 	if (PASSED_TESTS) {
 		std::cout << "All test cases passed.\n";
@@ -49,6 +50,7 @@ void TestMatrix::testOperatorOverloads() {
 		checkSubtraction();
 		checkScalarMultiplication();
 		checkMatrixMultiplication();
+		checkEquality();
 	}
 
 	catch (NumericalError e) {
@@ -143,10 +145,85 @@ void TestMatrix::checkMatrixMultiplication() {
 	}
 }
 
-void TestMatrix::testAdditionalFunctions() {
+void TestMatrix::checkEquality() {
+	Eigen::MatrixXcd eigenMatrix1(2, 2), eigenMatrix2(2, 2);
+	eigenMatrix1(0, 0) = std::complex<double>(-2.0, 1.5);
+	eigenMatrix1(0, 1) = 5.5;
+	eigenMatrix1(1, 0) = -eigenMatrix1(0, 0);
+	eigenMatrix1(1, 1) = eigenMatrix1(1, 0) + eigenMatrix1(0, 1);
+
+	auto object1 = LinearAlgebraObject::createFromEigenObject(eigenMatrix1);
+	auto object2 = LinearAlgebraObject::createFromEigenObject(eigenMatrix2);
+
+	Matrix matrix1(object1), matrix2(object2);
+
+	bool sameMatricesAreEqual = (matrix1 == 1.0 * matrix1);
+	if (!sameMatricesAreEqual) {
+		throw NumericalError("Matrix::operator== does not return equality on 1.0*Matrix!\n");
+	}
+	bool differentMatricesAreEqual = (matrix1 == matrix2);
+	if (differentMatricesAreEqual) {
+		throw NumericalError("Matrix::opeartor== declares to Matrix objects equal with unequal underlying matrices!\n");
+	}
+}
+
+void TestMatrix::testPropertyFunctions() {
+	try {
+		checkDimensions();
+		checkIsEqualToDoublePrecision();
+	}
+
+	catch (NumericalError e) {
+		std::cout << "Class Matrix has failed its tests.  Reason: " << e.what();
+		PASSED_TESTS = false;
+	}
+}
+
+void TestMatrix::checkDimensions() {
+	Eigen::MatrixXcd eigenMatrix(23, 15);
+	auto object = LinearAlgebraObject::createFromEigenObject(eigenMatrix);
+	Matrix matrix(object);
+
+	bool rowsWorks = (matrix.numberOfRows() == eigenMatrix.rows());
+	if (!rowsWorks) {
+		throw NumericalError("Matrix::numberOfRows() returns a value different than the underlying matrix!\n");
+	}
+	bool colsWorks = (matrix.numberOfColumns() == eigenMatrix.cols());
+	if (!colsWorks) {
+		throw NumericalError("Matrix::numberofColumns() returns a value different than the underlying matrix!\n");
+	}
+	bool sizeWorks = (matrix.size() == eigenMatrix.size());
+	if (!sizeWorks) {
+		throw NumericalError("Matrix::size() does not equal the size (rows * columns) of the underlying matrix!\n");
+	}
+}
+void TestMatrix::checkIsEqualToDoublePrecision() {
+	Eigen::MatrixXcd eigenMatrix1(2, 2), eigenMatrix2(2, 2);
+	eigenMatrix1(0, 0) = std::complex<double>(1.0, -0.5);
+	eigenMatrix1(0, 1) = -1.5;
+	eigenMatrix1(1, 0) = -eigenMatrix1(0, 0);
+	eigenMatrix1(1, 1) = eigenMatrix1(1, 0) + eigenMatrix1(0, 1);
+
+	auto object1 = LinearAlgebraObject::createFromEigenObject(eigenMatrix1);
+	auto object2 = LinearAlgebraObject::createFromEigenObject(eigenMatrix2);
+
+	Matrix matrix1(object1), matrix2(object2);
+
+	bool sameMatricesAreEqual = matrix1.isEqualToDoublePrecision(1.0 * matrix1);
+	if (!sameMatricesAreEqual) {
+		throw NumericalError("a Matrix object does not equal itself * 1.0!\n");
+	}
+	bool differentMatricesAreEqual = matrix1.isEqualToDoublePrecision(matrix2);
+	if (differentMatricesAreEqual) {
+		throw NumericalError("two Matrix objects are deemed equal with unequal underlying matrices!\n");
+	}
+}
+
+void TestMatrix::testManipulationFunctions() {
 	try {
 		checkAccessors();
-		checkDimensions();
+		checkTransposeInPlace();
+		checkTranspose();
 	}
 
 	catch (NumericalError e) {
@@ -187,28 +264,48 @@ void TestMatrix::checkAccessors() {
 	eigenComparison(0, 1) = matrix(0, 1);
 	eigenComparison(1, 0) = matrix(1, 0);
 	eigenComparison(1, 1) = matrix(1, 1);
-	
+
 	bool assignmentWorks = eigenComparison.isApprox(eigenMatrix);
 	if (!assignmentWorks) {
 		throw NumericalError("Matrix::operator() does not assign values to underlying matrix correctly!\n");
 	}
 }
 
-void TestMatrix::checkDimensions() {
-	Eigen::MatrixXcd eigenMatrix(23, 15);
-	auto object = LinearAlgebraObject::createFromEigenObject(eigenMatrix);
-	Matrix matrix(object);
+void TestMatrix::checkTransposeInPlace() {
+	Eigen::MatrixXcd eigenMatrix(2, 2);
+	eigenMatrix(0, 0) = 0;
+	eigenMatrix(0, 1) = std::complex<double>(0, 1.0);
+	eigenMatrix(1, 0) = std::complex<double>(1, 0);
+	eigenMatrix(1, 1) = std::complex<double>(1, 1);
+	Eigen::MatrixXcd eigenTransposedMatrix = eigenMatrix.transpose();
 
-	bool rowsWorks = (matrix.numberOfRows() == eigenMatrix.rows());
-	if (!rowsWorks) {
-		throw NumericalError("Matrix::numberOfRows() returns a value different than the underlying matrix!\n");
+	auto object = LinearAlgebraObject::createFromEigenObject(eigenMatrix);
+	auto transposedObject = LinearAlgebraObject::createFromEigenObject(eigenTransposedMatrix);
+
+	Matrix matrix(object), transposedMatrix(transposedObject);
+
+	matrix.transposeInPlace();
+	bool matrixIsEqualAfterTransposing = (matrix == transposedMatrix);
+	if (!matrixIsEqualAfterTransposing) {
+		throw NumericalError("Matrix::transposeInPlace() results in an underlying matrix that was not correctly transposed!\n");
 	}
-	bool colsWorks = (matrix.numberOfColumns() == eigenMatrix.cols());
-	if (!colsWorks) {
-		throw NumericalError("Matrix::numberofColumns() returns a value different than the underlying matrix!\n");
-	}
-	bool sizeWorks = (matrix.size() == eigenMatrix.size());
-	if (!sizeWorks) {
-		throw NumericalError("Matrix::size() does not equal the size (rows * columns) of the underlying matrix!\n");
+}
+
+void TestMatrix::checkTranspose() {
+	Eigen::MatrixXcd eigenMatrix(2, 2);
+	eigenMatrix(0, 0) = 0;
+	eigenMatrix(0, 1) = std::complex<double>(0, 1.0);
+	eigenMatrix(1, 0) = std::complex<double>(1, 0);
+	eigenMatrix(1, 1) = std::complex<double>(1, 1);
+	Eigen::MatrixXcd eigenTransposedMatrix = eigenMatrix.transpose();
+
+	auto object = LinearAlgebraObject::createFromEigenObject(eigenMatrix);
+	auto transposedObject = LinearAlgebraObject::createFromEigenObject(eigenTransposedMatrix);
+
+	Matrix matrix(object), transposedMatrix(transposedObject);
+
+	bool matrixIsEqualAfterTransposing = (matrix.returnMatrixTranspose() == transposedMatrix);
+	if (!matrixIsEqualAfterTransposing) {
+		throw NumericalError("Matrix::transpose() returns a Matrix whose underlying matrix was not correctly transposed!\n");
 	}
 }

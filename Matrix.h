@@ -19,6 +19,8 @@ public:
 	unsigned int numberOfRows();
 	unsigned int numberOfColumns();
 	unsigned int size();
+	void transposeInPlace();
+	Matrix returnMatrixTranspose();
 };
 
 // non-member operator overloads
