@@ -6,8 +6,8 @@ Matrix::Matrix(const LinearAlgebraObject& linearAlgebraObject) {
 	this->matrixExpression = linearAlgebraObject.matrixExpression;
 }
 
-Matrix::Matrix(int rows, int cols) {
-	this->matrixExpression = Eigen::MatrixXcd(rows, cols);
+Matrix::Matrix(int rows, int columns) {
+	this->matrixExpression = Eigen::MatrixXcd(rows, columns);
 }
 
 Matrix Matrix::operator+(const Matrix& nextMatrix) const {

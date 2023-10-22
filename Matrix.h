@@ -5,7 +5,7 @@ class Matrix : protected LinearAlgebraObject {
 public:
 	Matrix();
 	Matrix(const LinearAlgebraObject& linearAlgebraObject);
-	Matrix(int rows, int cols);
+	Matrix(int rows, int columns);
 
 	Matrix operator+(const Matrix& nextMatrix) const;
 	Matrix operator-(const Matrix& nextMatrix) const;
