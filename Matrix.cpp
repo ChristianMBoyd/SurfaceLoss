@@ -65,6 +65,11 @@ Matrix Matrix::returnMatrixTranspose() {
 	return Matrix(transposedObject);
 }
 
+Matrix Matrix::returnAsDiagonalMatrix() {
+	auto diagonalObject = LinearAlgebraObject::createFromEigenObject(matrixExpression.diagonal());
+	return Matrix(diagonalObject);
+}
+
 // non-member operator overloads
 
 bool operator==(const Matrix& leftMatrix, const Matrix& rightMatrix) {

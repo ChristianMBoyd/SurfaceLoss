@@ -21,6 +21,7 @@ public:
 	unsigned int size();
 	void transposeInPlace();
 	Matrix returnMatrixTranspose();
+	Matrix returnAsDiagonalMatrix();
 };
 
 // non-member operator overloads
