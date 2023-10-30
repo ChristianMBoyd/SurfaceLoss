@@ -1,6 +1,7 @@
 #pragma once
 #include "TestLinearAlgebra.h"
 #include "Matrix.h"
+#include "Vector.h"
 
 class TestMatrix : public TestLinearAlgebra {
 protected:
@@ -28,4 +29,7 @@ private:
 	void checkAccessors();
 	void checkTransposeInPlace();
 	void checkTranspose();
+
+	// brief! tests of Vector
+	void testVectorFeatures();
 };

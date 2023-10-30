@@ -10,6 +10,7 @@ void TestMatrix::runTests() {
 	testOperatorOverloads();
 	testPropertyFunctions();
 	testManipulationFunctions();
+	testVectorFeatures();
 
 	if (PASSED_TESTS) {
 		std::cout << "All test cases passed.\n";
@@ -308,4 +309,15 @@ void TestMatrix::checkTranspose() {
 	if (!matrixIsEqualAfterTransposing) {
 		throw NumericalError("Matrix::transpose() returns a Matrix whose underlying matrix was not correctly transposed!\n");
 	}
+}
+
+void TestMatrix::testVectorFeatures() {
+	Vector vector(2, 2);
+	vector(0, 0) = 0;
+	vector(0, 1) = std::complex<double>(0, 1);
+	vector(1, 0) = std::complex<double>(1, 0);
+	vector(1, 1) = std::complex<double>(1, 1);
+
+	std::cout << "Vector input from extending base class:\n";
+	std::cout << vector << std::endl;
 }

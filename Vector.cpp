@@ -1,9 +1,18 @@
 #include "Vector.h"
 
-Vector::Vector() : Matrix(1, 3) {} // currently create a 3-column vector as the default to ensure only 1 row on construction
+Vector::Vector(unsigned int rows, unsigned int columns) : Eigen::MatrixXcd(rows, columns) {}
 
-Vector::Vector(Matrix diagonalMatrix) {
-	// needs Matrix::returnAsDiagonalMatrix() first
+// accessors: following Eigen notation of "m[i][j]" -> m(i, j) is the ith row and jth column of m
+std::complex<double>& Vector::operator()(unsigned int row, unsigned int column) {
+	return this->Eigen::MatrixXcd::operator()(row, column);
 }
 
-Vector::Vector(int columns) : Matrix(1, columns) {}
+const std::complex<double>& Vector::operator()(unsigned int row, unsigned int column) const {
+	return this->Eigen::MatrixXcd::operator()(row, column);
+}
+
+// non-member functions
+
+std::ostream& operator<<(std::ostream& outputStream, const Vector& vector) {
+	return Eigen::operator<<(outputStream, vector);
+}

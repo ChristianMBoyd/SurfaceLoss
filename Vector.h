@@ -1,13 +1,30 @@
 #pragma once
-#include "Matrix.h"
+#include "Eigen/Dense"
+#include <complex>
+#include <iostream>
 
-// Vector is implemented as a Matrix object with one row
+// Test: implement as direct Eigen::MatrixXcd object
 
-class Vector : public Matrix {
+class Vector : protected Eigen::MatrixXcd {
 public:
-	Vector();
-	Vector(Matrix diagonalMatrix);
-	Vector(int columns);
+	Vector() : Eigen::MatrixXcd() {}
+	Vector(unsigned int rows, unsigned int columns);
 
-	// To do: finish Vector class -- decide how to handle various components/inheritance!
+	// template overrides
+	template<typename derivedMatrixType>
+	Vector(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression) : Eigen::MatrixXcd(eigenExpression) {}
+
+	template<typename derivedMatrixType>
+	Vector& operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression) {
+		this->Eigen::MatrixXcd::operator=(eigenExpression);
+		return *this;
+	}
+
+	// basic operator overloads
+	std::complex<double>& operator()(unsigned int row, unsigned int column);
+	const std::complex<double>& operator()(unsigned int row, unsigned int column) const;
+
+	friend std::ostream& operator<<(std::ostream& outputStream, const Vector& vector);
 };
+
+std::ostream& operator<<(std::ostream& outputStream, const Vector& vector);
