@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Test.h"
 #include "TestInputStructs.h"
-#include "TestLinearAlgebra.h"
 #include "TestMatrix.h"
 
 void holdOutputWindow();
@@ -16,11 +15,9 @@ int main()
 
 void testComponents() {
     TestMatrix matrixTest;
-    TestLinearAlgebra linearAlgebraTest;
     TestInputStructs inputStructTest;
 
     matrixTest.runTests();
-    linearAlgebraTest.runTests();
     inputStructTest.runTests();
 }
 

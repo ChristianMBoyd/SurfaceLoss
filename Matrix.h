@@ -1,44 +1,43 @@
 #pragma once
-#include "LinearAlgebraObject.h"
+#include "Eigen/Dense"
+#include <complex>
+#include <iostream>
 
-class Matrix : protected LinearAlgebraObject {
+// Test: implement as direct Eigen::MatrixXcd object
+
+class Matrix : protected Eigen::MatrixXcd {
 public:
-	Matrix();
-	Matrix(const LinearAlgebraObject& linearAlgebraObject);
-	Matrix(int rows, int columns);
+	Matrix() : Eigen::MatrixXcd() {}
+	Matrix(unsigned int rows, unsigned int columns);
+	template<typename derivedMatrixType>
+	Matrix(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);
 
-	Matrix operator+(const Matrix& nextMatrix) const;
-	Matrix operator-(const Matrix& nextMatrix) const;
-	Matrix operator*(const Matrix& nextMatrix) const;
-	template<class scalarClass>
-	Matrix operator*(const scalarClass& scalar) const;
+	// basic operator overloads
 	std::complex<double>& operator()(unsigned int row, unsigned int column);
 	const std::complex<double>& operator()(unsigned int row, unsigned int column) const;
+	const Matrix operator*(const Matrix& matrix) const;
 
-	bool isEqualToDoublePrecision(const Matrix& comparisonMatrix) const;
-	unsigned int numberOfRows();
-	unsigned int numberOfColumns();
-	unsigned int size();
-	void transposeInPlace();
-	Matrix returnMatrixTranspose();
-	Matrix returnAsDiagonalMatrix();
+	template<typename derivedMatrixType>
+	Matrix& operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);
+
+
+	// external operator overloads
+	friend std::ostream& operator<<(std::ostream& outputStream, const Matrix& matrix);
+	friend Matrix operator*(const std::complex<double> complex, const Matrix& matrix);
+	friend Matrix operator*(const Matrix& matrix, const std::complex<double> complex);
+	friend Matrix operator*(const double realScalar, const Matrix& matrix);
+	friend Matrix operator*(const Matrix& matrix, const double realScalar);
 };
 
-// non-member operator overloads
-template<class scalarClass>
-Matrix operator*(const scalarClass& leftScalar, const Matrix& rightMatrix);
-bool operator==(const Matrix& leftMatrix, const Matrix& rightMatrix);
+// templated function definitions
+template<typename derivedMatrixType>
+Matrix::Matrix(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression) : Eigen::MatrixXcd(eigenExpression) {}
 
-// template function definitions:
-
-template<class scalarClass>
-Matrix Matrix::operator*(const scalarClass& scalar) const {
-	const LinearAlgebraObject* thisPointer = this;
-	LinearAlgebraObject product = scalar * *thisPointer;
-	return Matrix(product);
+template<typename derivedMatrixType>
+Matrix& Matrix::operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression) {
+	this->Eigen::MatrixXcd::operator=(eigenExpression);
+	return *this;
 }
 
-template<class scalarClass>
-Matrix operator*(const scalarClass& leftScalar, const Matrix& rightMatrix) {
-	return rightMatrix.operator*(leftScalar);
-}
+
+

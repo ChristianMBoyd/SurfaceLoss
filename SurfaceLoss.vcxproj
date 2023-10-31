@@ -139,21 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LinearAlgebraObject.cpp" />
-    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="SurfaceLoss.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TestInputStructs.cpp" />
-    <ClCompile Include="TestLinearAlgebra.cpp" />
     <ClCompile Include="TestMatrix.cpp" />
-    <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DielectricConstant.h" />
     <ClInclude Include="TestMatrix.h" />
-    <ClInclude Include="LinearAlgebraObject.h" />
-    <ClInclude Include="Matrix.h" />
-    <ClInclude Include="TestLinearAlgebra.h" />
     <ClInclude Include="Mass.h" />
     <ClInclude Include="ModelParameters.h" />
     <ClInclude Include="NumericalError.h" />
@@ -162,7 +156,7 @@
     <ClInclude Include="PlanarWavevector.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TestInputStructs.h" />
-    <ClInclude Include="Vector.h" />
+    <ClInclude Include="Matrix.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
