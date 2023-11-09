@@ -3,7 +3,7 @@
 #include <complex>
 #include <iostream>
 
-// Test: implement as direct Eigen::MatrixXcd object
+// This is an Eigen::MatrixXcd wrapper with basic operations wrapped and necessary functionality extended
 
 class Matrix : protected Eigen::MatrixXcd {
 public:
@@ -16,6 +16,7 @@ public:
 	std::complex<double>& operator()(unsigned int row, unsigned int column);
 	const std::complex<double>& operator()(unsigned int row, unsigned int column) const;
 	const Matrix operator*(const Matrix& matrix) const;
+	bool operator==(const Matrix& matrix);
 
 	template<typename derivedMatrixType>
 	Matrix& operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);

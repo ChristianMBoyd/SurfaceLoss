@@ -15,6 +15,10 @@ const Matrix Matrix::operator*(const Matrix& matrix) const {
 	return this->Eigen::MatrixXcd::operator*(matrix);
 }
 
+bool Matrix::operator==(const Matrix& matrix) {
+	return this->isApprox(matrix);
+}
+
 // non-member functions
 
 std::ostream& operator<<(std::ostream& outputStream, const Matrix& matrix) {
