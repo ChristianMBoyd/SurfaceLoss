@@ -19,12 +19,6 @@ void TestMatrix::runTests() {
 	}
 }
 
-bool TestMatrix::twoComplexesAreEqual(std::complex<double> leftValue, std::complex<double> rightValue) {
-	bool realValuesAreEqual = twoDoublesAreEqual(leftValue.real(), rightValue.real());
-	bool imagValuesAreEqual = twoDoublesAreEqual(leftValue.imag(), rightValue.imag());
-	return realValuesAreEqual && imagValuesAreEqual;
-}
-
 void TestMatrix::testConstructors() {
 	try {
 		checkConstructorFunctions();
@@ -175,5 +169,4 @@ void TestMatrix::checkComplexMultiplication() {
 	if (!rightProductWorks) {
 		throw NumericalError("Class Matrix multiplication with a complex scalar does not commute!\n");
 	}
-
 }

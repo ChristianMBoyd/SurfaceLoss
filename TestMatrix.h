@@ -6,7 +6,6 @@ class TestMatrix : public Test {
 public:
 	TestMatrix();
 	void runTests();
-	bool twoComplexesAreEqual(std::complex<double> leftValue, std::complex<double> rightValue);
 
 private:
 	void testConstructors();
@@ -23,5 +22,6 @@ private:
 	void checkComplexMultiplication();
 	void checkDoubleMultiplication();
 
-	// Next: implement addition/subtraction operators, then extend rows/columns and other related functions
+	// Next: finish implementing random number generators, including random number generator tests in Test.h!
+	// Then: implement addition/subtraction operators, then extend rows/columns and other related functions
 };
