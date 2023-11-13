@@ -14,9 +14,11 @@ int main()
 }
 
 void testComponents() {
+    Test baseTest;
     TestMatrix matrixTest;
     TestInputStructs inputStructTest;
 
+    baseTest.runTests();
     matrixTest.runTests();
     inputStructTest.runTests();
 }

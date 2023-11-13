@@ -22,6 +22,6 @@ private:
 	void checkComplexMultiplication();
 	void checkDoubleMultiplication();
 
-	// Next: finish implementing random number generators, including random number generator tests in Test.h!
+	// Next: extract testing methods in Test (avoid duplicate), then implement similar functionality to generate random matrices
 	// Then: implement addition/subtraction operators, then extend rows/columns and other related functions
 };

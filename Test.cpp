@@ -14,13 +14,88 @@ void Test::initializeRandomNumberGenerator() {
 }
 
 void Test::runTests() {
-	std::cout << "Testing...\n";
+	std::cout << "Testing Test base class...\n";
+
+	testRandomDoubleGenerator();
+	testRandomComplexGenerator();
 
 	if (PASSED_TESTS) {
 		std::cout << "All test cases passed.\n";
 	}
 	else {
 		std::cout << "FAILED!\n";
+	}
+}
+
+void Test::testRandomDoubleGenerator() {
+	try {
+		checkRandomDoubleGenerator();
+	}
+	catch (NumericalError error) {
+		std::cout << "Class Test has failed its tests.  Reason: ";
+		std::cout << error.what();
+		PASSED_TESTS = false;
+	}
+}
+
+void Test::checkRandomDoubleGenerator() {
+	double sum = 0;
+	bool validValues = true;
+	int valuesToTest = 100;
+	for (int counter = 0; counter < valuesToTest; counter++) {
+		double randomDouble = generateRandomUnitDouble();
+		if ((randomDouble > 1) || (randomDouble < -1)){
+			validValues = false;
+			break;
+		}
+		sum += randomDouble;
+	}
+	if (!validValues) {
+		throw NumericalError("Test base class generates random doubles outside preset range!\n");
+	}
+	double average = sum / valuesToTest;
+	double tolerance = 0.5;
+	bool validAverage = (average > -tolerance) && (average < tolerance);
+	if (!validAverage) {
+		throw NumericalError("Test base class generates random doubles with average: " + std::to_string(average) + "\n");
+	}
+}
+
+void Test::testRandomComplexGenerator() {
+	try {
+		checkRandomComplexGenerator();
+	}
+	catch (NumericalError error) {
+		std::cout << "Class Test has failed its tests.  Reason: ";
+		std::cout << error.what();
+		PASSED_TESTS = false;
+	}
+}
+
+void Test::checkRandomComplexGenerator() {
+	std::complex<double> sum = 0;
+	bool validValues = true;
+	int valuesToTest = 100;
+	for (int counter = 0; counter < valuesToTest; counter++) {
+		auto randomComplex = generateRandomUnitComplex();
+		bool validRealValue = (randomComplex.real() >= -1) && (randomComplex.real() <= 1);
+		bool validImagValue = (randomComplex.imag() >= -1) && (randomComplex.imag() <= 1);
+		if (!validRealValue || !validImagValue) {
+			validValues = false;
+			break;
+		}
+		sum += randomComplex;
+	}
+	if (!validValues) {
+		throw NumericalError("Test base class generates random complexes outside preset range!\n");
+	}
+	auto average = sum / (1.0 * valuesToTest);
+	double tolerance = 0.5;
+	bool validRealAverage = (average.real() > -tolerance) && (average.real() < tolerance);
+	bool validImagAverage = (average.imag() > -tolerance) && (average.imag() < tolerance);
+	if (!validRealAverage || !validImagAverage) {
+		throw NumericalError("Test base class generates random complexes with average: (" + std::to_string(average.real()) + ", "
+			+ std::to_string(average.imag()) + ")\n");
 	}
 }
 

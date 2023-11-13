@@ -14,6 +14,12 @@ private:
 
 	void initializeRandomNumberGenerator();
 
+	void testRandomDoubleGenerator();
+	void checkRandomDoubleGenerator();
+
+	void testRandomComplexGenerator();
+	void checkRandomComplexGenerator();
+
 protected:
 	bool PASSED_TESTS = true;
 
