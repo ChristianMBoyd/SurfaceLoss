@@ -8,7 +8,8 @@ Test::Test() {
 }
 
 void Test::initializeRandomNumberGenerator() {
-	unitDistribution = std::uniform_real_distribution<double>(-1.0, 1.0);
+	BIAS = (RANDOM_MIN + RANDOM_MAX) / 2.0;
+	unitDistribution = std::uniform_real_distribution<double>(RANDOM_MIN, RANDOM_MAX);
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 	randomEngine = std::default_random_engine(seed);
 }
@@ -39,26 +40,31 @@ void Test::testRandomDoubleGenerator() {
 }
 
 void Test::checkRandomDoubleGenerator() {
-	double sum = 0;
-	bool validValues = true;
-	int valuesToTest = 100;
-	for (int counter = 0; counter < valuesToTest; counter++) {
+	double averageDouble = 0;
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
 		double randomDouble = generateRandomUnitDouble();
-		if ((randomDouble > 1) || (randomDouble < -1)){
-			validValues = false;
-			break;
+		if (!randomDoubleIsValid(randomDouble)) {
+			throw NumericalError("Test base class generates random doubles outside preset range!\n");
 		}
-		sum += randomDouble;
+		averageDouble += randomDouble;
 	}
-	if (!validValues) {
-		throw NumericalError("Test base class generates random doubles outside preset range!\n");
+	averageDouble /= NUMBER_OF_TESTS;
+	if (!averageDoubleIsValid(averageDouble)) {
+		throw NumericalError("Test base class generates random doubles with average " + std::to_string(averageDouble) + " after " +
+			std::to_string(NUMBER_OF_TESTS) + " runs\n");
 	}
-	double average = sum / valuesToTest;
-	double tolerance = 0.5;
-	bool validAverage = (average > -tolerance) && (average < tolerance);
-	if (!validAverage) {
-		throw NumericalError("Test base class generates random doubles with average: " + std::to_string(average) + "\n");
-	}
+}
+
+double Test::generateRandomUnitDouble() {
+	return unitDistribution(randomEngine);
+}
+
+bool Test::randomDoubleIsValid(double randomDouble) {
+	return (RANDOM_MIN < randomDouble) && (randomDouble < RANDOM_MAX);
+}
+
+bool Test::averageDoubleIsValid(double averageDouble) {
+	return (BIAS - BIAS_TOLERANCE < averageDouble) && (averageDouble < BIAS + BIAS_TOLERANCE);
 }
 
 void Test::testRandomComplexGenerator() {
@@ -73,49 +79,46 @@ void Test::testRandomComplexGenerator() {
 }
 
 void Test::checkRandomComplexGenerator() {
-	std::complex<double> sum = 0;
-	bool validValues = true;
-	int valuesToTest = 100;
-	for (int counter = 0; counter < valuesToTest; counter++) {
+	Complex averageComplex = 0;
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
 		auto randomComplex = generateRandomUnitComplex();
-		bool validRealValue = (randomComplex.real() >= -1) && (randomComplex.real() <= 1);
-		bool validImagValue = (randomComplex.imag() >= -1) && (randomComplex.imag() <= 1);
-		if (!validRealValue || !validImagValue) {
-			validValues = false;
-			break;
+		if (!randomComplexIsValid(randomComplex)) {
+			throw NumericalError("Test base class generates random complexes outside preset range!\n");
 		}
-		sum += randomComplex;
+		averageComplex += randomComplex;
 	}
-	if (!validValues) {
-		throw NumericalError("Test base class generates random complexes outside preset range!\n");
+	averageComplex /= NUMBER_OF_TESTS;
+	if (!averageComplexIsValid(averageComplex)) {
+		throw NumericalError("Test base class generates random complexes with average: (" + std::to_string(averageComplex.real()) + ", "
+			+ std::to_string(averageComplex.imag()) + ") after " + std::to_string(NUMBER_OF_TESTS) + " runs\n");
 	}
-	auto average = sum / (1.0 * valuesToTest);
-	double tolerance = 0.5;
-	bool validRealAverage = (average.real() > -tolerance) && (average.real() < tolerance);
-	bool validImagAverage = (average.imag() > -tolerance) && (average.imag() < tolerance);
-	if (!validRealAverage || !validImagAverage) {
-		throw NumericalError("Test base class generates random complexes with average: (" + std::to_string(average.real()) + ", "
-			+ std::to_string(average.imag()) + ")\n");
-	}
+}
+
+// here, we mean complexes are restricted to lie within the unit *square*, not the unit circle
+Complex Test::generateRandomUnitComplex() {
+	double real = generateRandomUnitDouble();
+	double imag = generateRandomUnitDouble();
+	return Complex(real, imag);
+}
+
+bool Test::randomComplexIsValid(Complex randomComplex) {
+	bool realIsValid = randomDoubleIsValid(randomComplex.real());
+	bool imagIsValid = randomDoubleIsValid(randomComplex.imag());
+	return realIsValid && imagIsValid;
+}
+
+bool Test::averageComplexIsValid(Complex averageComplex) {
+	bool realAverageIsValid = averageDoubleIsValid(averageComplex.real());
+	bool imagAverageIsValid = averageDoubleIsValid(averageComplex.imag());
+	return realAverageIsValid && imagAverageIsValid;
 }
 
 bool Test::twoDoublesAreEqual(double first, double second) {
 	return (std::abs(first - second) < DOUBLE_ERROR);
 }
 
-bool Test::twoComplexesAreEqual(std::complex<double> leftValue, std::complex<double> rightValue) {
+bool Test::twoComplexesAreEqual(Complex leftValue, Complex rightValue) {
 	bool realValuesAreEqual = twoDoublesAreEqual(leftValue.real(), rightValue.real());
 	bool imagValuesAreEqual = twoDoublesAreEqual(leftValue.imag(), rightValue.imag());
 	return realValuesAreEqual && imagValuesAreEqual;
-}
-
-double Test::generateRandomUnitDouble() {
-	return unitDistribution(randomEngine);
-}
-
-// here, we mean complexes are restricted to lie within the unit *square*, not the unit circle
-std::complex<double> Test::generateRandomUnitComplex() {
-	double real = generateRandomUnitDouble();
-	double imag = generateRandomUnitDouble();
-	return std::complex<double>(real, imag);
 }

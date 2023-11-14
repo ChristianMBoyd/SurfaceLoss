@@ -146,6 +146,7 @@
     <ClCompile Include="Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Complex.h" />
     <ClInclude Include="DielectricConstant.h" />
     <ClInclude Include="TestMatrix.h" />
     <ClInclude Include="Mass.h" />

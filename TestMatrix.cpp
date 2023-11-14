@@ -35,13 +35,13 @@ void TestMatrix::checkConstructorFunctions() {
 
 	// Eigen-specific tests
 	Eigen::MatrixXcd eigenMatrix(2, 2);
-	eigenMatrix(0, 0) = std::complex<double>(1, 1);
+	eigenMatrix(0, 0) = Complex(1, 1);
 	eigenMatrix(1, 0) = 2.0 * eigenMatrix(0, 0);
-	eigenMatrix(0, 1) = std::complex<double>(-1, 1) * eigenMatrix(1, 0);
+	eigenMatrix(0, 1) = Complex(-1, 1) * eigenMatrix(1, 0);
 	eigenMatrix(1, 1) = -eigenMatrix(0, 0);
 
 	Matrix eigenConstructedMatrix(eigenMatrix);
-	Matrix scalarEigenExpressionMatrix(std::complex<double>(0.2, -1.5) * eigenMatrix);
+	Matrix scalarEigenExpressionMatrix(Complex(0.2, -1.5) * eigenMatrix);
 	Matrix eigenExpressionMatrix(eigenMatrix * eigenMatrix - eigenMatrix);
 }
 
@@ -58,12 +58,12 @@ void TestMatrix::testAccessors() {
 
 void TestMatrix::checkAccessors() {
 	Matrix matrix(2, 2);
-	matrix(0, 0) = std::complex<double>(0, 0);
-	matrix(0, 1) = std::complex<double>(0, 1.0);
-	matrix(1, 0) = std::complex<double>(1.0, 0);
+	matrix(0, 0) = Complex(0, 0);
+	matrix(0, 1) = Complex(0, 1.0);
+	matrix(1, 0) = Complex(1.0, 0);
 	matrix(1, 1) = matrix(1, 0) + matrix(0, 1);
 
-	std::complex<double> oneZeroComponent = std::complex<double>(1.0, 0);
+	Complex oneZeroComponent = Complex(1.0, 0);
 	bool assignedCorrectly = twoComplexesAreEqual(oneZeroComponent, matrix(1, 0));
 	if (!assignedCorrectly) {
 		throw NumericalError("Class Matrix assignment value and recall value are not equal!\n");
@@ -83,10 +83,10 @@ void TestMatrix::testEquals() {
 
 void TestMatrix::checkEquals() {
 	Matrix matrix1(2, 2), matrix2(2, 2);
-	matrix1(0, 0) = std::complex<double>(-1.5, 2.0);
-	matrix1(0, 1) = std::complex<double>(0, 1.0);
-	matrix1(1, 0) = std::complex<double>(1.5, -3);
-	matrix1(1, 1) = std::complex<double>(0.5, 5.5);
+	matrix1(0, 0) = Complex(-1.5, 2.0);
+	matrix1(0, 1) = Complex(0, 1.0);
+	matrix1(1, 0) = Complex(1.5, -3);
+	matrix1(1, 1) = Complex(0.5, 5.5);
 
 	matrix2 = matrix1;
 	bool matricesAreEqual = (matrix1 == matrix2);
@@ -94,7 +94,7 @@ void TestMatrix::checkEquals() {
 		throw NumericalError("Class Matrix operator== finds two matrices set to another unequal!\n");
 	}
 
-	matrix2(1, 0) = std::complex<double>(-2.4, 1.5);
+	matrix2(1, 0) = Complex(-2.4, 1.5);
 	matricesAreEqual = (matrix2 == matrix1);
 	if (matricesAreEqual) {
 		throw NumericalError("Class Matrix operator== finds unequal matrices to be equal!\n");
@@ -120,10 +120,10 @@ void TestMatrix::checkScalarMultiplication() {
 void TestMatrix::checkDoubleMultiplication() {
 	double scale = 3.56;
 	Matrix matrix(2, 2);
-	matrix(0, 0) = std::complex<double>(1.5, 1.5);
-	matrix(0, 1) = std::complex<double>(0, 3.0);
-	matrix(1, 0) = std::complex<double>(3.0, 0);
-	matrix(1, 1) = std::complex<double>(-2, -2);
+	matrix(0, 0) = Complex(1.5, 1.5);
+	matrix(0, 1) = Complex(0, 3.0);
+	matrix(1, 0) = Complex(3.0, 0);
+	matrix(1, 1) = Complex(-2, -2);
 
 	Matrix productMatrix = scale * matrix;
 	Matrix rightProductMatrix = matrix * scale;
@@ -144,13 +144,13 @@ void TestMatrix::checkDoubleMultiplication() {
 }
 
 void TestMatrix::checkComplexMultiplication() {
-	auto scalar = std::complex<double>(2.0, -3.0);
+	auto scalar = Complex(2.0, -3.0);
 	Matrix matrix(2, 2);
 
-	matrix(0, 0) = std::complex<double>(10, -10);
-	matrix(0, 1) = std::complex<double>(-2, 2.5);
-	matrix(1, 0) = std::complex<double>(1.0, 0.1);
-	matrix(1, 1) = std::complex<double>(0.5, -1.5);
+	matrix(0, 0) = Complex(10, -10);
+	matrix(0, 1) = Complex(-2, 2.5);
+	matrix(1, 0) = Complex(1.0, 0.1);
+	matrix(1, 1) = Complex(0.5, -1.5);
 
 	Matrix productMatrix = scalar * matrix;
 	Matrix rightProductMatrix = matrix * scalar;

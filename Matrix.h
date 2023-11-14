@@ -1,6 +1,6 @@
 #pragma once
 #include "Eigen/Dense"
-#include <complex>
+#include "Complex.h"
 #include <iostream>
 
 // This is an Eigen::MatrixXcd wrapper with basic operations wrapped and necessary functionality extended
@@ -13,8 +13,8 @@ public:
 	Matrix(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);
 
 	// basic operator overloads
-	std::complex<double>& operator()(unsigned int row, unsigned int column);
-	const std::complex<double>& operator()(unsigned int row, unsigned int column) const;
+	Complex& operator()(unsigned int row, unsigned int column);
+	const Complex& operator()(unsigned int row, unsigned int column) const;
 	const Matrix operator*(const Matrix& matrix) const;
 	bool operator==(const Matrix& matrix);
 
@@ -24,8 +24,8 @@ public:
 
 	// external operator overloads
 	friend std::ostream& operator<<(std::ostream& outputStream, const Matrix& matrix);
-	friend Matrix operator*(const std::complex<double> complex, const Matrix& matrix);
-	friend Matrix operator*(const Matrix& matrix, const std::complex<double> complex);
+	friend Matrix operator*(const Complex complex, const Matrix& matrix);
+	friend Matrix operator*(const Matrix& matrix, const Complex complex);
 	friend Matrix operator*(const double realScalar, const Matrix& matrix);
 	friend Matrix operator*(const Matrix& matrix, const double realScalar);
 };

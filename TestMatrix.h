@@ -6,6 +6,7 @@ class TestMatrix : public Test {
 public:
 	TestMatrix();
 	void runTests();
+	Matrix generateRandomUnitMatrix();
 
 private:
 	void testConstructors();
@@ -22,7 +23,7 @@ private:
 	void checkComplexMultiplication();
 	void checkDoubleMultiplication();
 
-	// Next: extract testing methods in Test (avoid duplicate), then implement similar functionality to generate random matrices
-	// Consider using typedef for function pointers and to create a header file converting: std::complex<double> -> Complex
+	// Next: update TestMatrix to use random values and implement generateRandomUnitMatrix()
+	// On a similar note: update TestInputStructs to use random values
 	// Then: implement addition/subtraction operators, then extend rows/columns and other related functions
 };
