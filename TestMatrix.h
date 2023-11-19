@@ -1,12 +1,15 @@
 #pragma once
 #include "Test.h"
 #include "Matrix.h"
+#include "RandomGenerator.h"
 
 class TestMatrix : public Test {
+private:
+	RandomGenerator randomGenerator;
+
 public:
 	TestMatrix();
 	void runTests();
-	Matrix generateRandomUnitMatrix();
 
 private:
 	void testConstructors();
@@ -14,6 +17,8 @@ private:
 
 	void testAccessors();
 	void checkAccessors();
+
+	Matrix randomMatrix(unsigned int rows, unsigned int columns);
 
 	void testEquals();
 	void checkEquals();
@@ -23,7 +28,7 @@ private:
 	void checkComplexMultiplication();
 	void checkDoubleMultiplication();
 
-	// Next: update TestMatrix to use random values and implement generateRandomUnitMatrix()
-	// On a similar note: update TestInputStructs to use random values
-	// Then: implement addition/subtraction operators, then extend rows/columns and other related functions
+	// Next: start with tests on accessors using random values, then implement a randomMatrix function for subsequent testing
+	// On a similar note: update TestInputStructs to use RandomGenerator 
+	// Then: implement addition/subtraction operators, extend rows/columns and other related functions
 };

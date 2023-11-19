@@ -24,7 +24,7 @@ void TestMatrix::testConstructors() {
 		checkConstructorFunctions();
 	}
 	catch (...) {
-		std::cout << "Class Matrix has failed its tests!  Reason: unspecified constructor error (possibly Eigen-dependent).\n";
+		std::cout << "Class Matrix has failed its tests!  Reason: unspecified error on constructor call.\n";
 		PASSED_TESTS = false;
 	}
 }
@@ -32,17 +32,7 @@ void TestMatrix::testConstructors() {
 void TestMatrix::checkConstructorFunctions() {
 	Matrix defaultMatrix;
 	Matrix rowsAndColsMatrix(2, 60);
-
-	// Eigen-specific tests
-	Eigen::MatrixXcd eigenMatrix(2, 2);
-	eigenMatrix(0, 0) = Complex(1, 1);
-	eigenMatrix(1, 0) = 2.0 * eigenMatrix(0, 0);
-	eigenMatrix(0, 1) = Complex(-1, 1) * eigenMatrix(1, 0);
-	eigenMatrix(1, 1) = -eigenMatrix(0, 0);
-
-	Matrix eigenConstructedMatrix(eigenMatrix);
-	Matrix scalarEigenExpressionMatrix(Complex(0.2, -1.5) * eigenMatrix);
-	Matrix eigenExpressionMatrix(eigenMatrix * eigenMatrix - eigenMatrix);
+	Matrix matrixConstructor(defaultMatrix);
 }
 
 void TestMatrix::testAccessors() {
@@ -58,12 +48,9 @@ void TestMatrix::testAccessors() {
 
 void TestMatrix::checkAccessors() {
 	Matrix matrix(2, 2);
-	matrix(0, 0) = Complex(0, 0);
-	matrix(0, 1) = Complex(0, 1.0);
-	matrix(1, 0) = Complex(1.0, 0);
-	matrix(1, 1) = matrix(1, 0) + matrix(0, 1);
-
 	Complex oneZeroComponent = Complex(1.0, 0);
+	matrix(1, 0) = oneZeroComponent;
+
 	bool assignedCorrectly = twoComplexesAreEqual(oneZeroComponent, matrix(1, 0));
 	if (!assignedCorrectly) {
 		throw NumericalError("Class Matrix assignment value and recall value are not equal!\n");

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Test.h"
+#include "TestRandomGenerator.h"
 #include "TestInputStructs.h"
 #include "TestMatrix.h"
 
@@ -15,12 +16,14 @@ int main()
 
 void testComponents() {
     Test baseTest;
-    TestMatrix matrixTest;
+    TestRandomGenerator randomGeneratorTest;
     TestInputStructs inputStructTest;
+    TestMatrix matrixTest;
 
     baseTest.runTests();
-    matrixTest.runTests();
+    randomGeneratorTest.runTests();
     inputStructTest.runTests();
+    matrixTest.runTests();
 }
 
 void holdOutputWindow() {

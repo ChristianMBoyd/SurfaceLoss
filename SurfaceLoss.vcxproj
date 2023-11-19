@@ -139,8 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="RandomGenerator.cpp" />
     <ClCompile Include="SurfaceLoss.cpp" />
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="TestRandomGenerator.cpp" />
     <ClCompile Include="TestInputStructs.cpp" />
     <ClCompile Include="TestMatrix.cpp" />
     <ClCompile Include="Matrix.cpp" />
@@ -148,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="Complex.h" />
     <ClInclude Include="DielectricConstant.h" />
+    <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="TestMatrix.h" />
     <ClInclude Include="Mass.h" />
     <ClInclude Include="ModelParameters.h" />
@@ -155,9 +158,10 @@
     <ClInclude Include="NumericalParameters.h" />
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="PlanarWavevector.h" />
-    <ClInclude Include="Test.h" />
+    <ClInclude Include="TestRandomGenerator.h" />
     <ClInclude Include="TestInputStructs.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
