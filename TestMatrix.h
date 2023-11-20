@@ -29,6 +29,6 @@ private:
 	void checkDoubleMultiplication();
 
 	// Next: start with tests on accessors using random values, then implement a randomMatrix function for subsequent testing
-	// On a similar note: update TestInputStructs to use RandomGenerator 
+	// Make sure to implement AssignmentError when appropriate
 	// Then: implement addition/subtraction operators, extend rows/columns and other related functions
 };

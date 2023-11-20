@@ -1,15 +1,12 @@
 #pragma once
 #include "Test.h"
+#include "RandomGenerator.h"
 #include "Parameters.h"
 
 class TestInputStructs : public Test {
 private:
-	PlanarWavevector qPlanar;
-	Mass mass;
-	DielectricConstant eps;
-	ModelParameters modelParameters;
-	NumericalParameters numericalParameters;
-	Parameters parameters; // only a struct of default-constructed above objects
+	RandomGenerator randomGenerator;
+	const int NUMBER_OF_TESTS = 10; // just checking assignment, not statistics
 
 public:
 	TestInputStructs();

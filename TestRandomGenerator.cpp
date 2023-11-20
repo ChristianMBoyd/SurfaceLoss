@@ -37,7 +37,7 @@ void TestRandomGenerator::testRandomDoubles() {
 		checkRandomDoubles();
 	}
 	catch (NumericalError error) {
-		std::cout << "Class RandomGenerator has failed its tests.  Reason: ";
+		std::cout << "Class RandomGenerator has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}
@@ -72,7 +72,7 @@ void TestRandomGenerator::testRandomComplexes() {
 		checkRandomComplexes();
 	}
 	catch (NumericalError error) {
-		std::cout << "Class RandomGenerator has failed its tests.  Reason: ";
+		std::cout << "Class RandomGenerator has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}

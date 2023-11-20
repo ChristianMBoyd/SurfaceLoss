@@ -24,7 +24,7 @@ void TestMatrix::testConstructors() {
 		checkConstructorFunctions();
 	}
 	catch (...) {
-		std::cout << "Class Matrix has failed its tests!  Reason: unspecified error on constructor call.\n";
+		std::cout << "Class Matrix has failed its tests!  \nReason: unspecified error on constructor call.\n";
 		PASSED_TESTS = false;
 	}
 }
@@ -40,7 +40,7 @@ void TestMatrix::testAccessors() {
 		checkAccessors();
 	}
 	catch (NumericalError error) {
-		std::cout << "Class Matrix has failed its tests.  Reason: ";
+		std::cout << "Class Matrix has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}
@@ -62,7 +62,7 @@ void TestMatrix::testEquals() {
 		checkEquals();
 	}
 	catch (NumericalError error) {
-		std::cout << "Class Matrix has failed its tests.  Reason: ";
+		std::cout << "Class Matrix has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}
@@ -93,7 +93,7 @@ void TestMatrix::testMultiplication() {
 		checkScalarMultiplication();
 	}
 	catch (NumericalError error) {
-		std::cout << "Class Matrix has failed its tests.  Reason: ";
+		std::cout << "Class Matrix has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}

@@ -29,3 +29,5 @@ private:
 	bool randomComplexIsValid(Complex randomComplex);
 	bool averageComplexIsValid(Complex averageComplex);
 };
+
+// incorporate AssignementError where appropriate

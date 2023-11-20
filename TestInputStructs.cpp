@@ -24,29 +24,36 @@ void TestInputStructs::testPlanarWavevector() {
 		checkPlanarWavevectorFunctions();
 	}
 	catch (NumericalError error) {
-		std::cout << "Struct PlanarWavevector has failed its tests.  Reason: ";
+		std::cout << "Struct PlanarWavevector has failed its tests.  \nReason: ";
+		std::cout << error.what();
+		PASSED_TESTS = false;
+	}
+	catch (AssignmentError error) {
+		std::cout << "Struct PlanarWavevector has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}
 }
 
 void TestInputStructs::checkPlanarWavevectorFunctions() {
-	double qx = 0.1;
-	double qy = 0.01;
-	double magnitude = std::sqrt(qx * qx + qy * qy);
-	qPlanar = PlanarWavevector(qx, qy);
-
-	bool qx_Passed = twoDoublesAreEqual(qx, qPlanar.qx);
-	if (!qx_Passed) {
-		throw NumericalError("qx differs from input!\n");
-	}
-	bool qy_Passed = twoDoublesAreEqual(qy, qPlanar.qy);
-	if (!qy_Passed) {
-		throw NumericalError("qy differs from input!\n");
-	}
-	bool magnitude_Passed = twoDoublesAreEqual(magnitude, qPlanar.magnitude);
-	if (!magnitude_Passed) {
-		throw NumericalError("magnitude differs from input!\n");
+	randomGenerator = RandomGenerator(); // values centered at 0
+	double qx, qy, magnitude;
+	PlanarWavevector q;
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		qx = randomGenerator.randomDouble();
+		qy = randomGenerator.randomDouble();
+		magnitude = std::sqrt(qx * qx + qy * qy);
+		q = PlanarWavevector(qx, qy);
+		if (!twoDoublesAreEqual(qx, q.qx)) {
+			throw AssignmentError("q.qx", q.qx, qx);
+		}
+		if (!twoDoublesAreEqual(qy, q.qy)) {
+			throw AssignmentError("q.qy", q.qy, qy);
+		}
+		if (!twoDoublesAreEqual(magnitude, q.magnitude)) {
+			throw NumericalError("q.magnitude = " + std::to_string(q.magnitude) + " instead of " 
+				+ std::to_string(magnitude) + " !\n");
+		}
 	}
 }
 
@@ -55,33 +62,35 @@ void TestInputStructs::testMass() {
 		checkMassFunctions();
 	}
 	catch (NumericalError error) {
-		std::cout << "Struct Mass has failed its tests.  Reason: ";
+		std::cout << "Struct Mass has failed its tests.  \nReason: ";
+		std::cout << error.what();
+		PASSED_TESTS = false;
+	}
+	catch (AssignmentError error) {
+		std::cout << "Struct Mass has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}
 }
 
 void TestInputStructs::checkMassFunctions() {
-	double mx = 0.3;
-	double mz = 10.4;
-	double my = 1.0 / mx;
-	mass = Mass(mx, mz);
-
-	bool mx_Passed = twoDoublesAreEqual(mx, mass.mx);
-	if (!mx_Passed) {
-		throw NumericalError("mx differs from input!\n");
-	}
-	bool my_CalculatedCorrectly = twoDoublesAreEqual(my, mass.my);
-	if (!my_CalculatedCorrectly) {
-		throw NumericalError("my calculated incorrectly from input!\n");
-	}
-	bool mz_Passed = twoDoublesAreEqual(mz, mass.mz);
-	if (!mz_Passed) {
-		throw NumericalError("mz differs from input!\n");
-	}
-	bool normalizedPlanarComponents = twoDoublesAreEqual(1.0, mass.mx * mass.my);
-	if (!normalizedPlanarComponents) {
-		throw NumericalError("mx and my do not multiply to 1 (unit mass)!\n");
+	randomGenerator = RandomGenerator(0, 100); // positive values, reasonable range
+	double mx, mz;
+	Mass mass;
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		mx = randomGenerator.randomDouble();
+		mz = randomGenerator.randomDouble();
+		mass = Mass(mx, mz);
+		if (!twoDoublesAreEqual(mx, mass.mx)) {
+			throw AssignmentError("mass.mx", mass.mx, mx);
+		}
+		if (!twoDoublesAreEqual(mz, mass.mz)) {
+			throw AssignmentError("mass.mz", mass.mz, mz);
+		}
+		if (!twoDoublesAreEqual(1.0, mass.mx * mass.my)) {
+			throw NumericalError("mass.my = " + std::to_string(mass.my)
+				+ " is not normalized according to mass.mx * mass.my = 1!\n");
+		}
 	}
 }
 
@@ -89,30 +98,31 @@ void TestInputStructs::testDielectricConstant() {
 	try {
 		checkDielectricConstantFunctions();
 	}
-	catch (NumericalError error) {
-		std::cout << "Struct DielectricConstant has failed its tests.  Reason: ";
+	catch (AssignmentError error) {
+		std::cout << "Struct DielectricConstant has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}
 }
 
 void TestInputStructs::checkDielectricConstantFunctions() {
-	double epsx = 13.5;
-	double epsy = 18.5;
-	double epsz = 8.5;
-	eps = DielectricConstant(epsx, epsy, epsz);
-
-	bool epsx_Passed = twoDoublesAreEqual(epsx, eps.epsx);
-	if (!epsx_Passed) {
-		throw NumericalError("epsx differs from input!\n");
-	}
-	bool epsy_Passed = twoDoublesAreEqual(epsy, eps.epsy);
-	if (!epsy_Passed) {
-		throw NumericalError("epsy differs from input!\n");
-	}
-	bool epsz_Passed = twoDoublesAreEqual(epsz, eps.epsz);
-	if (!epsz_Passed) {
-		throw NumericalError("epsz differs from input!\n");
+	randomGenerator = RandomGenerator(1, 100); // realistic, non-vacuum values
+	double epsx, epsy, epsz;
+	DielectricConstant eps;
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		epsx = randomGenerator.randomDouble();
+		epsy = randomGenerator.randomDouble();
+		epsz = randomGenerator.randomDouble();
+		eps = DielectricConstant(epsx, epsy, epsz);
+		if (!twoDoublesAreEqual(epsx, eps.epsx)) {
+			throw AssignmentError("eps.epsx", eps.epsx, epsx);
+		}
+		if (!twoDoublesAreEqual(epsy, eps.epsy)) {
+			throw AssignmentError("eps.epsy", eps.epsy, epsy);
+		}
+		if (!twoDoublesAreEqual(epsz, eps.epsz)) {
+			throw AssignmentError("eps.epsz", eps.epsz, epsz);
+		}
 	}
 }
 
@@ -120,30 +130,31 @@ void TestInputStructs::testModelParameters() {
 	try {
 		checkModelParametersFunctions();
 	}
-	catch (NumericalError error) {
-		std::cout << "Struct ModelParameters has failed its tests.  Reason: ";
+	catch (AssignmentError error) {
+		std::cout << "Struct ModelParameters has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}
 }
 
 void TestInputStructs::checkModelParametersFunctions() {
-	double frequency = 1.1;
-	double linewidth = 0.11;
-	double plasmaToFermiRatio = 1.2;
-	modelParameters = ModelParameters(frequency, linewidth, plasmaToFermiRatio);
-
-	bool frequency_Passed = twoDoublesAreEqual(frequency, modelParameters.frequency);
-	if (!frequency_Passed) {
-		throw NumericalError("frequency differs from input!\n");
-	}
-	bool linewidth_Passed = twoDoublesAreEqual(linewidth, modelParameters.linewidth);
-	if (!linewidth_Passed) {
-		throw NumericalError("linewidth differs from input!\n");
-	}
-	bool plasmaToFermiRatio_Passed = twoDoublesAreEqual(plasmaToFermiRatio, modelParameters.plasmaToFermiRatio);
-	if (!plasmaToFermiRatio_Passed) {
-		throw NumericalError("plasmaToFermiRatio differs from input!\n");
+	randomGenerator = RandomGenerator(0, 10); // reasonable (other than linewidth), positive values
+	double frequency, linewidth, plasmaToFermiRatio;
+	ModelParameters modelParameters;
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		frequency = randomGenerator.randomDouble();
+		linewidth = randomGenerator.randomDouble();
+		plasmaToFermiRatio = randomGenerator.randomDouble();
+		modelParameters = ModelParameters(frequency, linewidth, plasmaToFermiRatio);
+		if (!twoDoublesAreEqual(frequency, modelParameters.frequency)) {
+			throw AssignmentError("modelParameters.frequency", modelParameters.frequency, frequency);
+		}
+		if (!twoDoublesAreEqual(linewidth, modelParameters.linewidth)) {
+			throw AssignmentError("modelParameters.linewidth", modelParameters.linewidth, linewidth);
+		}
+		if (!twoDoublesAreEqual(plasmaToFermiRatio, modelParameters.plasmaToFermiRatio)) {
+			throw AssignmentError("modelParameters.plasmaToFermiRatio", modelParameters.plasmaToFermiRatio, plasmaToFermiRatio);
+		}
 	}
 }
 
@@ -151,24 +162,27 @@ void TestInputStructs::testNumericalParameters() {
 	try {
 		checkNumericalParametersFunctions();
 	}
-	catch (NumericalError error) {
-		std::cout << "Struct NumericalParameters has failed its tests.  Reason: ";
+	catch (AssignmentError error) {
+		std::cout << "Struct NumericalParameters has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
 	}
 }
 
 void TestInputStructs::checkNumericalParametersFunctions() {
-	double L = 50;
-	double cutoffWavevector = 4.5;
-	numericalParameters = NumericalParameters(L, cutoffWavevector);
-
-	bool L_Passed = twoDoublesAreEqual(L, numericalParameters.L);
-	if (!L_Passed) {
-		throw NumericalError("L differs from input!\n");
-	}
-	bool cutoffWavevector_Passed = twoDoublesAreEqual(cutoffWavevector, numericalParameters.cutoffWavevector);
-	if (!cutoffWavevector_Passed) {
-		throw NumericalError("cutoffWavevector differs from input!\n");
+	randomGenerator = RandomGenerator(1, 100); // realistic, positive values
+	double L, cutoffWavevector;
+	NumericalParameters numericalParameters;
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		L = randomGenerator.randomDouble();
+		cutoffWavevector = randomGenerator.randomDouble();
+		numericalParameters = NumericalParameters(L, cutoffWavevector);
+		if (!twoDoublesAreEqual(L, numericalParameters.L)) {
+			throw AssignmentError("numericalParameters.L", numericalParameters.L, L);
+		}
+		if (!twoDoublesAreEqual(cutoffWavevector, numericalParameters.cutoffWavevector)) {
+			throw AssignmentError("numericalParameters.cutoffWavevector", numericalParameters.cutoffWavevector,
+				cutoffWavevector);
+		}
 	}
 }

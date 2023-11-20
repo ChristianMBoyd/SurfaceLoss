@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Complex.h"
 #include "NumericalError.h"
+#include "AssignmentError.h"
 
 class Test {
 private:
