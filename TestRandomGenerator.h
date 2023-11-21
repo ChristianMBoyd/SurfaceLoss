@@ -2,8 +2,6 @@
 #include "Test.h"
 #include "RandomGenerator.h"
 
-// basic testing utils
-
 class TestRandomGenerator : public Test{
 private:
 	const int NUMBER_OF_TESTS = 100;
@@ -29,5 +27,3 @@ private:
 	bool randomComplexIsValid(Complex randomComplex);
 	bool averageComplexIsValid(Complex averageComplex);
 };
-
-// incorporate AssignementError where appropriate

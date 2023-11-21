@@ -19,6 +19,10 @@ bool Matrix::operator==(const Matrix& matrix) {
 	return this->isApprox(matrix);
 }
 
+bool Matrix::operator!=(const Matrix& matrix) {
+	return !(this->operator==(matrix));
+}
+
 // non-member functions
 
 std::ostream& operator<<(std::ostream& outputStream, const Matrix& matrix) {

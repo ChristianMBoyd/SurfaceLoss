@@ -24,22 +24,28 @@ void TestMatrix::testConstructors() {
 		checkConstructorFunctions();
 	}
 	catch (...) {
-		std::cout << "Class Matrix has failed its tests!  \nReason: unspecified error on constructor call.\n";
+		std::cout << "Class Matrix has failed its tests!  \nReason: unspecified error on constructor call!\n";
 		PASSED_TESTS = false;
 	}
 }
 
 void TestMatrix::checkConstructorFunctions() {
 	Matrix defaultMatrix;
-	Matrix rowsAndColsMatrix(2, 60);
+	Matrix rowsAndColumnsMatrix;
 	Matrix matrixConstructor(defaultMatrix);
+	randomGenerator = RandomGenerator(1, 1000); // positive number of rows/columns
+	for (int counter = 0; counter < NUMBER_OF_ASSIGNMENT_TESTS; counter++) {
+		int rows = int(std::floor(randomGenerator.randomDouble()));
+		int columns = int(std::floor(randomGenerator.randomDouble()));
+		rowsAndColumnsMatrix = Matrix(rows, columns);
+	}
 }
 
 void TestMatrix::testAccessors() {
 	try {
 		checkAccessors();
 	}
-	catch (NumericalError error) {
+	catch (AssignmentError error) {
 		std::cout << "Class Matrix has failed its tests.  \nReason: ";
 		std::cout << error.what();
 		PASSED_TESTS = false;
@@ -47,19 +53,35 @@ void TestMatrix::testAccessors() {
 }
 
 void TestMatrix::checkAccessors() {
-	Matrix matrix(2, 2);
-	Complex oneZeroComponent = Complex(1.0, 0);
-	matrix(1, 0) = oneZeroComponent;
-
-	bool assignedCorrectly = twoComplexesAreEqual(oneZeroComponent, matrix(1, 0));
-	if (!assignedCorrectly) {
-		throw NumericalError("Class Matrix assignment value and recall value are not equal!\n");
+	randomGenerator = RandomGenerator(); // random values on complex unit square
+	Matrix matrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
+	for (int row = 0; row < NUMBER_OF_ASSIGNMENT_TESTS; row++) {
+		for (int column = 0; column < NUMBER_OF_ASSIGNMENT_TESTS; column++) {
+			auto randomComplex = randomGenerator.randomComplex();
+			matrix(row, column) = randomComplex;
+			if (!twoComplexesAreEqual(matrix(row, column), randomComplex)) {
+				throw AssignmentError("matrix(row, column)", matrix(row, column), randomComplex);
+			}
+		}
 	}
+}
+
+
+// Caution: relies on state of randomGenerator object at time of calling -- a bit hacky
+Matrix TestMatrix::randomMatrix(unsigned int rows, unsigned int columns) {
+	Matrix randomMatrix(rows, columns);
+	for (unsigned int row_index = 0; row_index < rows; row_index++) {
+		for (unsigned int column_index = 0; column_index < columns; column_index++) {
+			randomMatrix(row_index, column_index) = randomGenerator.randomComplex();
+		}
+	}
+	return randomMatrix;
 }
 
 void TestMatrix::testEquals() {
 	try {
 		checkEquals();
+		checkIsNotEquals();
 	}
 	catch (NumericalError error) {
 		std::cout << "Class Matrix has failed its tests.  \nReason: ";
@@ -69,22 +91,32 @@ void TestMatrix::testEquals() {
 }
 
 void TestMatrix::checkEquals() {
-	Matrix matrix1(2, 2), matrix2(2, 2);
-	matrix1(0, 0) = Complex(-1.5, 2.0);
-	matrix1(0, 1) = Complex(0, 1.0);
-	matrix1(1, 0) = Complex(1.5, -3);
-	matrix1(1, 1) = Complex(0.5, 5.5);
-
-	matrix2 = matrix1;
-	bool matricesAreEqual = (matrix1 == matrix2);
-	if (!matricesAreEqual) {
-		throw NumericalError("Class Matrix operator== finds two matrices set to another unequal!\n");
+	randomGenerator = RandomGenerator(); // random values on complex unit square
+	Matrix baseMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
+	Matrix derivedMatrix = baseMatrix;
+	if (!(baseMatrix == derivedMatrix)) {
+		throw NumericalError("one matrix copied from another is not deemed equal!\n");
 	}
+	derivedMatrix(0, 0) = randomGenerator.randomComplex();
+	if (baseMatrix == derivedMatrix) {
+		throw NumericalError("matrices with one unequal entry were deemed equal!\n");
+	}
+}
 
-	matrix2(1, 0) = Complex(-2.4, 1.5);
-	matricesAreEqual = (matrix2 == matrix1);
-	if (matricesAreEqual) {
-		throw NumericalError("Class Matrix operator== finds unequal matrices to be equal!\n");
+void TestMatrix::checkIsNotEquals() {
+	randomGenerator = RandomGenerator(); // random values on complex unit square
+	Matrix baseMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
+	Matrix derivedMatrix = baseMatrix;
+	if (baseMatrix != derivedMatrix) {
+		throw NumericalError("identical matrices were deemed unequal!\n");
+	}
+	derivedMatrix(0, 0) = randomGenerator.randomComplex();
+	if (!(baseMatrix != derivedMatrix)) {
+		throw NumericalError("matrices differing by a single entry were not deemed unequal!\n");
+	}
+	derivedMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
+	if (!(baseMatrix != derivedMatrix)) {
+		throw NumericalError("two randomly generated matrices were deemed equal!\n");
 	}
 }
 

@@ -3,7 +3,7 @@
 #include "Complex.h"
 #include <iostream>
 
-// This is an Eigen::MatrixXcd wrapper with basic operations wrapped and necessary functionality extended
+// This is an Eigen::MatrixXcd wrapper with basic operations wrapped and desired functionality extended
 
 class Matrix : protected Eigen::MatrixXcd {
 public:
@@ -17,6 +17,7 @@ public:
 	const Complex& operator()(unsigned int row, unsigned int column) const;
 	const Matrix operator*(const Matrix& matrix) const;
 	bool operator==(const Matrix& matrix);
+	bool operator!=(const Matrix& matrix);
 
 	template<typename derivedMatrixType>
 	Matrix& operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);

@@ -6,6 +6,7 @@
 class TestMatrix : public Test {
 private:
 	RandomGenerator randomGenerator;
+	const int NUMBER_OF_ASSIGNMENT_TESTS = 10, NUMBER_OF_OPERATIONS_TESTS = 100; // more concerned with mathematical operations
 
 public:
 	TestMatrix();
@@ -22,13 +23,14 @@ private:
 
 	void testEquals();
 	void checkEquals();
+	void checkIsNotEquals();
 
 	void testMultiplication();
 	void checkScalarMultiplication();
 	void checkComplexMultiplication();
 	void checkDoubleMultiplication();
 
-	// Next: start with tests on accessors using random values, then implement a randomMatrix function for subsequent testing
-	// Make sure to implement AssignmentError when appropriate
+	// Next: test mathematical operations with randomly generated matrices
+	// Consider: implementing two RandomGenerator objects, one for (positive) sizes and one for unit square complex values
 	// Then: implement addition/subtraction operators, extend rows/columns and other related functions
 };

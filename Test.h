@@ -4,6 +4,8 @@
 #include "NumericalError.h"
 #include "AssignmentError.h"
 
+// basic testing utils, specific tests should be inherited
+
 class Test {
 private:
 	const double DOUBLE_ERROR = 1.0e-12;

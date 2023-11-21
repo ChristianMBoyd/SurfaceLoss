@@ -7,8 +7,7 @@
 void holdOutputWindow();
 void testComponents();
 
-int main()
-{
+int main() {
     testComponents();
     holdOutputWindow();
     return 0;
