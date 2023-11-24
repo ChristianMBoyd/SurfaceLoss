@@ -15,7 +15,7 @@ int main() {
 
 void testComponents() {
     Test baseTest;
-    TestRandomGenerator randomGeneratorTest;
+    TestRandomGenerator randomGeneratorTest(1, 100); // testing positives
     TestInputStructs inputStructTest;
     TestMatrix matrixTest;
 

@@ -15,7 +15,8 @@ public:
 	RandomGenerator(double randomMin, double randomMax);
 
 	void setNewMinAndMax(double randomMin, double randomMax);
-	
+
+	int randomInt();
 	double randomDouble();
 	Complex randomComplex();
 

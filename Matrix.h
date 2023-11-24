@@ -15,21 +15,26 @@ public:
 	// basic operator overloads
 	Complex& operator()(unsigned int row, unsigned int column);
 	const Complex& operator()(unsigned int row, unsigned int column) const;
+	const Matrix operator+(const Matrix& matrix) const;
+	const Matrix operator-(const Matrix& matrix) const;
 	const Matrix operator*(const Matrix& matrix) const;
+	const Matrix operator*(const Complex complexScalar) const;
+	const Matrix operator* (const double realScalar) const;
+	const Matrix operator*(const int realScalar) const;
 	bool operator==(const Matrix& matrix);
 	bool operator!=(const Matrix& matrix);
 
 	template<typename derivedMatrixType>
 	Matrix& operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);
 
-
 	// external operator overloads
 	friend std::ostream& operator<<(std::ostream& outputStream, const Matrix& matrix);
-	friend Matrix operator*(const Complex complex, const Matrix& matrix);
-	friend Matrix operator*(const Matrix& matrix, const Complex complex);
-	friend Matrix operator*(const double realScalar, const Matrix& matrix);
-	friend Matrix operator*(const Matrix& matrix, const double realScalar);
 };
+
+// external scalar * matrix product overalods
+Matrix operator*(const Complex complex, const Matrix& matrix);
+Matrix operator*(const double realScalar, const Matrix& matrix);
+Matrix operator*(const int realScalar, const Matrix& matrix);
 
 // templated function definitions
 template<typename derivedMatrixType>

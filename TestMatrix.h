@@ -5,8 +5,9 @@
 
 class TestMatrix : public Test {
 private:
-	RandomGenerator randomGenerator;
-	const int NUMBER_OF_ASSIGNMENT_TESTS = 10, NUMBER_OF_OPERATIONS_TESTS = 100; // more concerned with mathematical operations
+	RandomGenerator valueGenerator; // default unit line (complex square)
+	RandomGenerator indexGenerator = RandomGenerator(1, 100); // positive values for indices
+	const int NUMBER_OF_ASSIGNMENT_TESTS = 10, NUMBER_OF_OPERATION_TESTS = 100; // more concerned with mathematical operations
 
 public:
 	TestMatrix();
@@ -20,17 +21,29 @@ private:
 	void checkAccessors();
 
 	Matrix randomMatrix(unsigned int rows, unsigned int columns);
+	Matrix randomMatrix();
+	void testRandomMatrix();
+	void checkRandomMatrix();
 
 	void testEquals();
 	void checkEquals();
 	void checkIsNotEquals();
 
-	void testMultiplication();
-	void checkScalarMultiplication();
-	void checkComplexMultiplication();
+	void testScalarMultiplication();
+	void checkIntMultiplication();
 	void checkDoubleMultiplication();
+	void checkComplexMultiplication();
 
-	// Next: test mathematical operations with randomly generated matrices
-	// Consider: implementing two RandomGenerator objects, one for (positive) sizes and one for unit square complex values
-	// Then: implement addition/subtraction operators, extend rows/columns and other related functions
+	void testAddition();
+	void checkAddition();
+
+	void testSubtraction();
+	void checkSubtraction();
+
+	void testMatrixMultiplication();
+	void checkMatrixMultiplication();
+
+	// Next: implement addition/subtraction tests, 
+	// Consider: reasonable tests of matrix multiplication, then implement
+	// Then: extend rows(), columns(), size(), and other helpful functions
 };

@@ -15,6 +15,7 @@ TestRandomGenerator::TestRandomGenerator(double randomMin, double randomMax) : r
 void TestRandomGenerator::initializeTestParameters() {
 	bias = (randomMin + randomMax) / 2;
 	biasTolerance = relativeBiasTolerance * std::abs(randomMax);
+	randomGenerator = RandomGenerator(randomMin, randomMax);
 }
 
 
@@ -22,6 +23,7 @@ void TestRandomGenerator::runTests() {
 	std::cout << "Testing RandomGenerator class...\n";
 
 	testRandomDoubles();
+	testRandomInts();
 	testRandomComplexes();
 
 	if (PASSED_TESTS) {
@@ -55,7 +57,7 @@ void TestRandomGenerator::checkRandomDoubles() {
 	averageDouble /= NUMBER_OF_TESTS;
 	if (!averageDoubleIsValid(averageDouble)) {
 		throw NumericalError("RandomGenerator generates random doubles with average " + std::to_string(averageDouble) + " after " +
-			std::to_string(NUMBER_OF_TESTS) + " runs\n");
+			std::to_string(NUMBER_OF_TESTS) + " runs!\n");
 	}
 }
 
@@ -65,6 +67,50 @@ bool TestRandomGenerator::randomDoubleIsValid(double randomDouble) {
 
 bool TestRandomGenerator::averageDoubleIsValid(double averageDouble) {
 	return (bias - biasTolerance < averageDouble) && (averageDouble < bias + biasTolerance);
+}
+
+void TestRandomGenerator::testRandomInts() {
+	try {
+		checkRandomInts();
+	}
+	catch (NumericalError error) {
+		std::cout << "Class RandomGenerator has failed its tests.  \nReason: ";
+		std::cout << error.what();
+		PASSED_TESTS = false;
+	}
+}
+
+void TestRandomGenerator::checkRandomInts() {
+	double average = 0;
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		int randomInt = randomGenerator.randomInt();
+		if (!randomIntIsValid(randomInt)) {
+			throw NumericalError("RandomGenerator generates random ints outside preset range!\n");
+		}
+		average += randomInt;
+	}
+	average /= NUMBER_OF_TESTS;
+	if (!averageIntIsValid(average)) {
+		throw NumericalError("RandomGenerator generates ints with (double) average " + std::to_string(average) + " after "
+			+ std::to_string(NUMBER_OF_TESTS) + " runs!\n");
+	}
+}
+
+bool TestRandomGenerator::randomIntIsValid(int randomInt) {
+	bool isUpperBound = (randomInt == int(randomMax));
+	bool isLowerBound = (randomInt == int(randomMin));
+	if (isUpperBound || isLowerBound) {
+		return true;
+	}
+	return randomDoubleIsValid(randomInt); // defer to double testing within bounds
+}
+
+bool TestRandomGenerator::averageIntIsValid(int averageInt) {
+	return averageDoubleIsValid(averageInt); // defer to double testing
+}
+
+bool TestRandomGenerator::averageIntIsValid(double averageInt) {
+	return averageDoubleIsValid(averageInt); // defer to double testing
 }
 
 void TestRandomGenerator::testRandomComplexes() {
@@ -81,7 +127,7 @@ void TestRandomGenerator::testRandomComplexes() {
 void TestRandomGenerator::checkRandomComplexes() {
 	Complex averageComplex = 0;
 	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
-		auto randomComplex = randomGenerator.randomComplex();
+		Complex randomComplex = randomGenerator.randomComplex();
 		if (!randomComplexIsValid(randomComplex)) {
 			throw NumericalError("RandomGenerator generates random complexes outside preset range!\n");
 		}

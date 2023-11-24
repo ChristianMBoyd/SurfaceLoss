@@ -25,6 +25,10 @@ void RandomGenerator::setNewMinAndMax(double randomMin, double randomMax) {
 	initialize();
 }
 
+int RandomGenerator::randomInt() {
+	return int(distribution(randomEngine));
+}
+
 double RandomGenerator::randomDouble() {
 	return distribution(randomEngine);
 }

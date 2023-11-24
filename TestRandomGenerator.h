@@ -22,6 +22,12 @@ private:
 	bool randomDoubleIsValid(double randomDouble);
 	bool averageDoubleIsValid(double averageDouble);
 
+	void testRandomInts();
+	void checkRandomInts();
+	bool randomIntIsValid(int randomInt);
+	bool averageIntIsValid(int averageInt);
+	bool averageIntIsValid(double averageInt);
+
 	void testRandomComplexes();
 	void checkRandomComplexes();
 	bool randomComplexIsValid(Complex randomComplex);

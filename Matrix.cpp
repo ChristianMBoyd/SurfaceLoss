@@ -11,8 +11,28 @@ const Complex& Matrix::operator()(unsigned int row, unsigned int column) const {
 	return this->Eigen::MatrixXcd::operator()(row, column);
 }
 
+const Matrix Matrix::operator+(const Matrix& matrix) const {
+	return this->Eigen::MatrixXcd::operator+(matrix);
+}
+
+const Matrix Matrix::operator-(const Matrix& matrix) const {
+	return this->Eigen::MatrixXcd::operator-(matrix);
+}
+
 const Matrix Matrix::operator*(const Matrix& matrix) const {
 	return this->Eigen::MatrixXcd::operator*(matrix);
+}
+
+const Matrix Matrix::operator*(const Complex complex) const {
+	return this->Eigen::MatrixXcd::operator*(complex);
+}
+
+const Matrix Matrix::operator* (const double realScalar) const {
+	return this->Eigen::MatrixXcd::operator*(realScalar);
+}
+
+const Matrix Matrix::operator*(const int realScalar) const {
+	return this->Eigen::MatrixXcd::operator*(realScalar);
 }
 
 bool Matrix::operator==(const Matrix& matrix) {
@@ -30,17 +50,13 @@ std::ostream& operator<<(std::ostream& outputStream, const Matrix& matrix) {
 }
 
 Matrix operator*(const Complex complex, const Matrix& matrix) {
-	return matrix.Eigen::MatrixXcd::operator*(complex);
-}
-
-Matrix operator*(const Matrix& matrix, const Complex complex) {
-	return matrix.Eigen::MatrixXcd::operator*(complex);
+	return matrix * complex;
 }
 
 Matrix operator*(const double realScalar, const Matrix& matrix) {
-	return matrix.Eigen::MatrixXcd::operator*(realScalar);
+	return matrix * realScalar;
 }
 
-Matrix operator*(const Matrix& matrix, const double realScalar) {
-	return matrix.Eigen::MatrixXcd::operator*(realScalar);
+Matrix operator*(const int realScalar, const Matrix& matrix) {
+	return matrix * realScalar;
 }
