@@ -43,7 +43,6 @@ private:
 	void testMatrixMultiplication();
 	void checkMatrixMultiplication();
 
-	// Next: implement addition/subtraction tests, 
-	// Consider: reasonable tests of matrix multiplication, then implement
+	// Next: think up reasonable tests of matrix multiplication, then implement
 	// Then: extend rows(), columns(), size(), and other helpful functions
 };

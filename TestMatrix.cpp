@@ -285,5 +285,5 @@ void TestMatrix::testMatrixMultiplication() {
 }
 
 void TestMatrix::checkMatrixMultiplication() {
-	// ...
+	// idea: check bilinearity, then pick one or few-component matrices to test products on.  Generality is from bilinearity.
 }
