@@ -7,7 +7,8 @@ class TestMatrix : public Test {
 private:
 	RandomGenerator valueGenerator; // default unit line (complex square)
 	RandomGenerator indexGenerator = RandomGenerator(1, 100); // positive values for indices
-	const int NUMBER_OF_ASSIGNMENT_TESTS = 10, NUMBER_OF_OPERATION_TESTS = 100; // more concerned with mathematical operations
+	const int NUMBER_OF_TESTS = 10; // randomized operation checks
+	const int matrixDimension = 10; // suitable number of entries for component-wise checks
 
 public:
 	TestMatrix();

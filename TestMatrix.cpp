@@ -37,7 +37,7 @@ void TestMatrix::checkConstructorFunctions() {
 	Matrix defaultMatrix;
 	Matrix rowsAndColumnsMatrix;
 	Matrix matrixConstructor(defaultMatrix);
-	for (int counter = 0; counter < NUMBER_OF_ASSIGNMENT_TESTS; counter++) {
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
 		int rows = indexGenerator.randomInt();
 		int columns = indexGenerator.randomInt();
 		rowsAndColumnsMatrix = Matrix(rows, columns);
@@ -56,18 +56,17 @@ void TestMatrix::testAccessors() {
 }
 
 void TestMatrix::checkAccessors() {
-	Matrix matrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
-	for (int row = 0; row < NUMBER_OF_ASSIGNMENT_TESTS; row++) {
-		for (int column = 0; column < NUMBER_OF_ASSIGNMENT_TESTS; column++) {
-			Complex randomComplex = valueGenerator.randomComplex();
-			matrix(row, column) = randomComplex;
-			if (!twoComplexesAreEqual(matrix(row, column), randomComplex)) {
-				throw AssignmentError("matrix(row, column)", matrix(row, column), randomComplex);
-			}
+	Matrix matrix(matrixDimension, matrixDimension);
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		unsigned int randomRow = indexGenerator.randomInt() % matrixDimension;
+		unsigned int randomColumn = indexGenerator.randomInt() % matrixDimension;
+		Complex randomComplex = valueGenerator.randomComplex();
+		matrix(randomRow, randomColumn) = randomComplex;
+		if (!twoComplexesAreEqual(matrix(randomRow, randomColumn), randomComplex)) {
+			throw AssignmentError("matrix(randomRow, randomColumn)", matrix(randomRow, randomColumn), randomComplex);
 		}
 	}
 }
-
 
 // Caution: relies on state of valueGenerator object at time of calling -- a bit hacky
 Matrix TestMatrix::randomMatrix(unsigned int rows, unsigned int columns) {
@@ -100,7 +99,7 @@ void TestMatrix::testRandomMatrix() {
 // purely construction/assignment tests
 void TestMatrix::checkRandomMatrix() {
 	Matrix randomMatrix;
-	for (int counter = 0; counter < NUMBER_OF_ASSIGNMENT_TESTS; counter++) {
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
 		randomMatrix = this->randomMatrix();
 		int rows = indexGenerator.randomInt();
 		int columns = indexGenerator.randomInt();
@@ -121,7 +120,7 @@ void TestMatrix::testEquals() {
 }
 
 void TestMatrix::checkEquals() {
-	Matrix baseMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
+	Matrix baseMatrix = randomMatrix(NUMBER_OF_TESTS, NUMBER_OF_TESTS);
 	Matrix derivedMatrix = baseMatrix;
 	if (!(baseMatrix == derivedMatrix)) {
 		throw NumericalError("one matrix copied from another is not deemed equal!\n");
@@ -133,7 +132,7 @@ void TestMatrix::checkEquals() {
 }
 
 void TestMatrix::checkIsNotEquals() {
-	Matrix baseMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
+	Matrix baseMatrix = randomMatrix(NUMBER_OF_TESTS, NUMBER_OF_TESTS);
 	Matrix derivedMatrix = baseMatrix;
 	if (baseMatrix != derivedMatrix) {
 		throw NumericalError("identical matrices were deemed unequal!\n");
@@ -142,7 +141,7 @@ void TestMatrix::checkIsNotEquals() {
 	if (!(baseMatrix != derivedMatrix)) {
 		throw NumericalError("matrices differing by a single entry were not deemed unequal!\n");
 	}
-	derivedMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
+	derivedMatrix = randomMatrix(NUMBER_OF_TESTS, NUMBER_OF_TESTS);
 	if (!(baseMatrix != derivedMatrix)) {
 		throw NumericalError("two randomly generated matrices were deemed equal!\n");
 	}
@@ -162,61 +161,61 @@ void TestMatrix::testScalarMultiplication() {
 }
 
 void TestMatrix::checkIntMultiplication() {
-	Matrix matrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
-	for (int row = 0; row < NUMBER_OF_ASSIGNMENT_TESTS; row++) {
-		for (int column = 0; column < NUMBER_OF_ASSIGNMENT_TESTS; column++) {
-			int randomInt = indexGenerator.randomInt();
-			Complex matrixComponent = randomInt * matrix(row, column);
-			Matrix productMatrix = randomInt * matrix;
-			Complex productComponent = productMatrix(row, column);
-			if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
-				throw NumericalError("(int) * (Matrix) multiplication does not equal component-wise result!\n");
-			}
-			productMatrix = matrix * randomInt;
-			productComponent = productMatrix(row, column);
-			if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
-				throw NumericalError("(Matrix) * (int) multiplication does not equal component-wise result!\n");
-			}
+	Matrix matrix = randomMatrix(matrixDimension, matrixDimension);
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		int randomInt = indexGenerator.randomInt();
+		Matrix productMatrix = randomInt * matrix;
+		unsigned int randomRow = indexGenerator.randomInt() % matrixDimension;
+		unsigned int randomColumn = indexGenerator.randomInt() % matrixDimension;
+		Complex matrixComponent = randomInt * matrix(randomRow, randomColumn);
+		Complex productComponent = productMatrix(randomRow, randomColumn);
+		if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
+			throw NumericalError("(int) * (Matrix) multiplication does not equal component-wise result!\n");
+		}
+		productMatrix = matrix * randomInt;
+		productComponent = productMatrix(randomRow, randomColumn);
+		if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
+			throw NumericalError("(Matrix) * (int) multiplication does not equal component-wise result!\n");
 		}
 	}
 }
 
 void TestMatrix::checkDoubleMultiplication() {
-	Matrix matrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
-	for (int row = 0; row < NUMBER_OF_ASSIGNMENT_TESTS; row++) {
-		for (int column = 0; column < NUMBER_OF_ASSIGNMENT_TESTS; column++) {
-			double randomDouble = valueGenerator.randomDouble();
-			Complex matrixComponent = randomDouble * matrix(row, column);
-			Matrix productMatrix = randomDouble * matrix;
-			Complex productComponent = productMatrix(row, column);
-			if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
-				throw NumericalError("(double) * (Matrix) multiplication does not equal component-wise result!\n");
-			}
-			productMatrix = matrix * randomDouble;
-			productComponent = productMatrix(row, column);
-			if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
-				throw NumericalError("(Matrix) * (double) multiplication does not equal component-wise result!\n");
-			}
+	Matrix matrix = randomMatrix(matrixDimension, matrixDimension);
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		double randomDouble = valueGenerator.randomDouble();
+		Matrix productMatrix = randomDouble * matrix;
+		unsigned int randomRow = indexGenerator.randomInt() % matrixDimension;
+		unsigned int randomColumn = indexGenerator.randomInt() % matrixDimension;
+		Complex matrixComponent = randomDouble * matrix(randomRow, randomColumn);
+		Complex productComponent = productMatrix(randomRow, randomColumn);
+		if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
+			throw NumericalError("(double) * (Matrix) multiplication does not equal component-wise result!\n");
+		}
+		productMatrix = matrix * randomDouble;
+		productComponent = productMatrix(randomRow, randomColumn);
+		if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
+			throw NumericalError("(Matrix) * (double) multiplication does not equal component-wise result!\n");
 		}
 	}
 }
 
 void TestMatrix::checkComplexMultiplication() {
-	Matrix matrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
-	for (int row = 0; row < NUMBER_OF_ASSIGNMENT_TESTS; row++) {
-		for (int column = 0; column < NUMBER_OF_ASSIGNMENT_TESTS; column++) {
-			Complex randomComplex = valueGenerator.randomComplex();
-			Complex matrixComponent = randomComplex * matrix(row, column);
-			Matrix productMatrix = randomComplex * matrix;
-			Complex productComponent = productMatrix(row, column);
-			if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
-				throw NumericalError("(Complex) * (Matrix) multiplication does not equal component-wise result!\n");
-			}
-			productMatrix = matrix * randomComplex;
-			productComponent = productMatrix(row, column);
-			if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
-				throw NumericalError("(Matrix) * (Complex) multiplication does not equal component-wise result!\n");
-			}
+	Matrix matrix = randomMatrix(matrixDimension, matrixDimension);
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		Complex randomComplex = valueGenerator.randomComplex();
+		Matrix productMatrix = randomComplex * matrix;
+		unsigned int randomRow = indexGenerator.randomInt() % matrixDimension;
+		unsigned int randomColumn = indexGenerator.randomInt() % matrixDimension;
+		Complex matrixComponent = randomComplex * matrix(randomRow, randomColumn);
+		Complex productComponent = productMatrix(randomRow, randomColumn);
+		if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
+			throw NumericalError("(Complex) * (Matrix) multiplication does not equal component-wise result!\n");
+		}
+		productMatrix = matrix * randomComplex;
+		productComponent = productMatrix(randomRow, randomColumn);
+		if (!twoComplexesAreEqual(matrixComponent, productComponent)) {
+			throw NumericalError("(Matrix) * (Complex) multiplication does not equal component-wise result!\n");
 		}
 	}
 }
@@ -233,16 +232,16 @@ void TestMatrix::testAddition() {
 }
 
 void TestMatrix::checkAddition() {
-	Matrix leftMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
-	Matrix rightMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
+	Matrix leftMatrix = randomMatrix(matrixDimension, matrixDimension);
+	Matrix rightMatrix = randomMatrix(matrixDimension, matrixDimension);
 	Matrix sumMatrix = leftMatrix + rightMatrix;
-	for (int row = 0; row < NUMBER_OF_ASSIGNMENT_TESTS; row++) {
-		for (int column = 0; column < NUMBER_OF_ASSIGNMENT_TESTS; column++) {
-			Complex sum = leftMatrix(row, column) + rightMatrix(row, column);
-			Complex sumComponent = sumMatrix(row, column);
-			if (!twoComplexesAreEqual(sum, sumComponent)) {
-				throw NumericalError("Matrix addition is not equal to component-wise addition!\n");
-			}
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		unsigned int randomRow = indexGenerator.randomInt() % matrixDimension;
+		unsigned int randomColumn = indexGenerator.randomInt() % matrixDimension;
+		Complex sum = leftMatrix(randomRow, randomColumn) + rightMatrix(randomRow, randomColumn);
+		Complex sumComponent = sumMatrix(randomRow, randomColumn);
+		if (!twoComplexesAreEqual(sum, sumComponent)) {
+			throw NumericalError("Matrix addition is not equal to component-wise addition!\n");
 		}
 	}
 }
@@ -259,16 +258,16 @@ void TestMatrix::testSubtraction() {
 }
 
 void TestMatrix::checkSubtraction() {
-	Matrix leftMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
-	Matrix rightMatrix = randomMatrix(NUMBER_OF_ASSIGNMENT_TESTS, NUMBER_OF_ASSIGNMENT_TESTS);
+	Matrix leftMatrix = randomMatrix(matrixDimension, matrixDimension);
+	Matrix rightMatrix = randomMatrix(matrixDimension, matrixDimension);
 	Matrix differenceMatrix = leftMatrix - rightMatrix;
-	for (int row = 0; row < NUMBER_OF_ASSIGNMENT_TESTS; row++) {
-		for (int column = 0; column < NUMBER_OF_ASSIGNMENT_TESTS; column++) {
-			Complex difference = leftMatrix(row, column) - rightMatrix(row, column);
-			Complex differenceComponent = differenceMatrix(row, column);
-			if (!twoComplexesAreEqual(difference, differenceComponent)) {
-				throw NumericalError("Matrix subtraction is not equal to component-wise subtraction!\n");
-			}
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		unsigned int randomRow = indexGenerator.randomInt() % matrixDimension;
+		unsigned int randomColumn = indexGenerator.randomInt() % matrixDimension;
+		Complex difference = leftMatrix(randomRow, randomColumn) - rightMatrix(randomRow, randomColumn);
+		Complex differenceComponent = differenceMatrix(randomRow, randomColumn);
+		if (!twoComplexesAreEqual(difference, differenceComponent)) {
+			throw NumericalError("Matrix subtraction is not equal to component-wise subtraction!\n");
 		}
 	}
 }
@@ -285,5 +284,19 @@ void TestMatrix::testMatrixMultiplication() {
 }
 
 void TestMatrix::checkMatrixMultiplication() {
-	// idea: check bilinearity, then pick one or few-component matrices to test products on.  Generality is from bilinearity.
+	Matrix leftMatrix = randomMatrix(matrixDimension, matrixDimension);
+	Matrix rightMatrix = randomMatrix(matrixDimension, matrixDimension);
+	Matrix productMatrix = leftMatrix * rightMatrix;
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		unsigned int randomRow = indexGenerator.randomInt() % matrixDimension;
+		unsigned int randomColumn = indexGenerator.randomInt() % matrixDimension;
+		Complex productComponent = 0; // manually calculated below
+		for (int innerIndex = 0; innerIndex < matrixDimension; innerIndex++) {
+			productComponent += leftMatrix(randomRow, innerIndex) * rightMatrix(innerIndex, randomColumn);
+		}
+		Complex productMatrixComponent = productMatrix(randomRow, randomColumn);
+		if (!twoComplexesAreEqual(productComponent, productMatrixComponent)) {
+			throw NumericalError("Matrix multiplication does not equal component-wise operation!\n");
+		}
+	}
 }
