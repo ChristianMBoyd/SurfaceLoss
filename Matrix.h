@@ -45,6 +45,3 @@ Matrix& Matrix::operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpre
 	this->Eigen::MatrixXcd::operator=(eigenExpression);
 	return *this;
 }
-
-
-

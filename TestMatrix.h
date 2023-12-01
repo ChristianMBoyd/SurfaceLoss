@@ -44,6 +44,5 @@ private:
 	void testMatrixMultiplication();
 	void checkMatrixMultiplication();
 
-	// Next: think up reasonable tests of matrix multiplication, then implement
-	// Then: extend rows(), columns(), size(), and other helpful functions
+	// Next: extend numberOfRows(), numberOfColumns(), size(), transposeInPlace(), transpose(), and other helpful functions
 };

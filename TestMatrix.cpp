@@ -120,7 +120,7 @@ void TestMatrix::testEquals() {
 }
 
 void TestMatrix::checkEquals() {
-	Matrix baseMatrix = randomMatrix(NUMBER_OF_TESTS, NUMBER_OF_TESTS);
+	Matrix baseMatrix = randomMatrix(matrixDimension, matrixDimension);
 	Matrix derivedMatrix = baseMatrix;
 	if (!(baseMatrix == derivedMatrix)) {
 		throw NumericalError("one matrix copied from another is not deemed equal!\n");
@@ -132,7 +132,7 @@ void TestMatrix::checkEquals() {
 }
 
 void TestMatrix::checkIsNotEquals() {
-	Matrix baseMatrix = randomMatrix(NUMBER_OF_TESTS, NUMBER_OF_TESTS);
+	Matrix baseMatrix = randomMatrix(matrixDimension, matrixDimension);
 	Matrix derivedMatrix = baseMatrix;
 	if (baseMatrix != derivedMatrix) {
 		throw NumericalError("identical matrices were deemed unequal!\n");
@@ -141,7 +141,7 @@ void TestMatrix::checkIsNotEquals() {
 	if (!(baseMatrix != derivedMatrix)) {
 		throw NumericalError("matrices differing by a single entry were not deemed unequal!\n");
 	}
-	derivedMatrix = randomMatrix(NUMBER_OF_TESTS, NUMBER_OF_TESTS);
+	derivedMatrix = randomMatrix(matrixDimension, matrixDimension);
 	if (!(baseMatrix != derivedMatrix)) {
 		throw NumericalError("two randomly generated matrices were deemed equal!\n");
 	}
@@ -290,7 +290,7 @@ void TestMatrix::checkMatrixMultiplication() {
 	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
 		unsigned int randomRow = indexGenerator.randomInt() % matrixDimension;
 		unsigned int randomColumn = indexGenerator.randomInt() % matrixDimension;
-		Complex productComponent = 0; // manually calculated below
+		Complex productComponent = 0; // manually sum over components below
 		for (int innerIndex = 0; innerIndex < matrixDimension; innerIndex++) {
 			productComponent += leftMatrix(randomRow, innerIndex) * rightMatrix(innerIndex, randomColumn);
 		}
