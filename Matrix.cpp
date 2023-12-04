@@ -43,6 +43,18 @@ bool Matrix::operator!=(const Matrix& matrix) {
 	return !(this->operator==(matrix));
 }
 
+unsigned int Matrix::numberOfRows() const {
+	return this->rows();
+}
+
+unsigned int Matrix::numberOfColumns() const {
+	return this->cols();
+}
+
+unsigned int Matrix::numberOfEntries() const {
+	return this->size();
+}
+
 // non-member functions
 
 std::ostream& operator<<(std::ostream& outputStream, const Matrix& matrix) {

@@ -23,14 +23,9 @@ void TestInputStructs::testPlanarWavevector() {
 	try {
 		checkPlanarWavevectorFunctions();
 	}
-	catch (NumericalError error) {
+	catch (Exception& exception) {
 		std::cout << "Struct PlanarWavevector has failed its tests.  \nReason: ";
-		std::cout << error.what();
-		PASSED_TESTS = false;
-	}
-	catch (AssignmentError error) {
-		std::cout << "Struct PlanarWavevector has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -61,14 +56,9 @@ void TestInputStructs::testMass() {
 	try {
 		checkMassFunctions();
 	}
-	catch (NumericalError error) {
+	catch (Exception& exception) {
 		std::cout << "Struct Mass has failed its tests.  \nReason: ";
-		std::cout << error.what();
-		PASSED_TESTS = false;
-	}
-	catch (AssignmentError error) {
-		std::cout << "Struct Mass has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -98,9 +88,9 @@ void TestInputStructs::testDielectricConstant() {
 	try {
 		checkDielectricConstantFunctions();
 	}
-	catch (AssignmentError error) {
+	catch (Exception& exception) {
 		std::cout << "Struct DielectricConstant has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -130,9 +120,9 @@ void TestInputStructs::testModelParameters() {
 	try {
 		checkModelParametersFunctions();
 	}
-	catch (AssignmentError error) {
+	catch (Exception& exception) {
 		std::cout << "Struct ModelParameters has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -162,9 +152,9 @@ void TestInputStructs::testNumericalParameters() {
 	try {
 		checkNumericalParametersFunctions();
 	}
-	catch (AssignmentError error) {
+	catch (Exception& exception) {
 		std::cout << "Struct NumericalParameters has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }

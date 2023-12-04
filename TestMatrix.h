@@ -44,5 +44,10 @@ private:
 	void testMatrixMultiplication();
 	void checkMatrixMultiplication();
 
-	// Next: extend numberOfRows(), numberOfColumns(), size(), transposeInPlace(), transpose(), and other helpful functions
+	void testMatrixProperties();
+	void checkSizes();
+	void checkSizeAccessibility();
+
+
+	// Next: implement (and test!) transposeInPlace(), transpose(), and other helpful functions
 };

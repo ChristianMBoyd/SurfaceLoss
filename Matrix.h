@@ -13,6 +13,8 @@ public:
 	Matrix(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);
 
 	// basic operator overloads
+	template<typename derivedMatrixType>
+	Matrix& operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);
 	Complex& operator()(unsigned int row, unsigned int column);
 	const Complex& operator()(unsigned int row, unsigned int column) const;
 	const Matrix operator+(const Matrix& matrix) const;
@@ -24,8 +26,12 @@ public:
 	bool operator==(const Matrix& matrix);
 	bool operator!=(const Matrix& matrix);
 
-	template<typename derivedMatrixType>
-	Matrix& operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);
+	// wrapped functionality
+	unsigned int numberOfRows() const;
+	unsigned int numberOfColumns() const;
+	unsigned int numberOfEntries() const;
+	void transposeInPlace();
+	const Matrix transpose() const;
 
 	// external operator overloads
 	friend std::ostream& operator<<(std::ostream& outputStream, const Matrix& matrix);
@@ -38,10 +44,10 @@ Matrix operator*(const int realScalar, const Matrix& matrix);
 
 // templated function definitions
 template<typename derivedMatrixType>
-Matrix::Matrix(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression) : Eigen::MatrixXcd(eigenExpression) {}
+inline Matrix::Matrix(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression) : Eigen::MatrixXcd(eigenExpression) {}
 
 template<typename derivedMatrixType>
-Matrix& Matrix::operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression) {
+inline Matrix& Matrix::operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression) {
 	this->Eigen::MatrixXcd::operator=(eigenExpression);
 	return *this;
 }
