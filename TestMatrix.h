@@ -50,4 +50,5 @@ private:
 
 
 	// Next: implement (and test!) transposeInPlace(), transpose(), and other helpful functions
+	// Consider: implementing a string converter to simplify Complex error string generation
 };
