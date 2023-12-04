@@ -24,22 +24,27 @@ struct AssignmentError : Exception {
 		errorMessage = generateErrorMessage<Complex>(memberName, memberValue, inputValue);
 	}
 
+	template<class Number>
+	const char* generateErrorMessage(const char* memberName, Number memberValue, Number inputValue);
+	template<>
+	const char* generateErrorMessage<Complex>(const char* memberName, Complex memberValue, Complex inputValue);
+
 	const char* what() const noexcept override {
 		return errorMessage;
 	}
-
-	template<class Number> // used when std::to_string(Number) is defined
-	const char* generateErrorMessage(const char* memberName, Number memberValue, Number inputValue) {
-		stringErrorMessage = std::string(memberName) + " = " + std::to_string(memberValue) 
-		+ " differs from input value " + std::to_string(inputValue) + "!\n";
-		return stringErrorMessage.c_str();
-	}
-
-	template<> // std::to_string(Complex) not provided
-	const char* generateErrorMessage<Complex>(const char* memberName, Complex memberValue, Complex inputValue) {
-		stringErrorMessage = std::string(memberName) + " = (" + std::to_string(memberValue.real()) + ", "
-			+ std::to_string(memberValue.imag()) + ") differs from input value (" + std::to_string(inputValue.real())
-			+ ", " + std::to_string(inputValue.imag()) + ")!\n";
-		return stringErrorMessage.c_str();
-	}
 };
+
+template<class Number> // used when std::to_string(Number) is defined
+inline const char* AssignmentError::generateErrorMessage(const char* memberName, Number memberValue, Number inputValue) {
+	stringErrorMessage = std::string(memberName) + " = " + std::to_string(memberValue)
+		+ " differs from input value " + std::to_string(inputValue) + "!\n";
+	return stringErrorMessage.c_str();
+}
+
+template<> // std::to_string(Complex) not provided
+inline const char* AssignmentError::generateErrorMessage<Complex>(const char* memberName, Complex memberValue, Complex inputValue) {
+	stringErrorMessage = std::string(memberName) + " = (" + std::to_string(memberValue.real()) + ", "
+		+ std::to_string(memberValue.imag()) + ") differs from input value (" + std::to_string(inputValue.real())
+		+ ", " + std::to_string(inputValue.imag()) + ")!\n";
+	return stringErrorMessage.c_str();
+}
