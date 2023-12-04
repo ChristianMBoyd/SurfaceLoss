@@ -151,6 +151,7 @@
     <ClInclude Include="AssignmentError.h" />
     <ClInclude Include="Complex.h" />
     <ClInclude Include="DielectricConstant.h" />
+    <ClInclude Include="Exception.h" />
     <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="TestMatrix.h" />
     <ClInclude Include="Mass.h" />

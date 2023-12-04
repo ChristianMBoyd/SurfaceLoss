@@ -14,6 +14,7 @@ void TestMatrix::runTests() {
 	testAddition();
 	testSubtraction();
 	testMatrixMultiplication();
+	testMatrixProperties();
 
 	if (PASSED_TESTS) {
 		std::cout << "All test cases passed.\n";
@@ -48,9 +49,9 @@ void TestMatrix::testAccessors() {
 	try {
 		checkAccessors();
 	}
-	catch (AssignmentError error) {
+	catch (Exception& exception) {
 		std::cout << "Class Matrix has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -112,9 +113,9 @@ void TestMatrix::testEquals() {
 		checkEquals();
 		checkIsNotEquals();
 	}
-	catch (NumericalError error) {
+	catch (Exception& exception) {
 		std::cout << "Class Matrix has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -153,9 +154,9 @@ void TestMatrix::testScalarMultiplication() {
 		checkDoubleMultiplication();
 		checkComplexMultiplication();
 	}
-	catch (NumericalError error) {
+	catch (Exception& exception) {
 		std::cout << "Class Matrix has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -224,9 +225,9 @@ void TestMatrix::testAddition() {
 	try {
 		checkAddition();
 	}
-	catch (NumericalError error) {
+	catch (Exception& exception) {
 		std::cout << "Class Matrix has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -250,9 +251,9 @@ void TestMatrix::testSubtraction() {
 	try {
 		checkSubtraction();
 	}
-	catch (NumericalError error) {
+	catch (Exception& exception) {
 		std::cout << "Class Matrix has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -276,9 +277,9 @@ void TestMatrix::testMatrixMultiplication() {
 	try {
 		checkMatrixMultiplication();
 	}
-	catch (NumericalError error) {
+	catch (Exception& exception) {
 		std::cout << "Class Matrix has failed its tests.  \nReason: ";
-		std::cout << error.what();
+		std::cout << exception.what();
 		PASSED_TESTS = false;
 	}
 }
@@ -297,6 +298,55 @@ void TestMatrix::checkMatrixMultiplication() {
 		Complex productMatrixComponent = productMatrix(randomRow, randomColumn);
 		if (!twoComplexesAreEqual(productComponent, productMatrixComponent)) {
 			throw NumericalError("Matrix multiplication does not equal component-wise operation!\n");
+		}
+	}
+}
+
+void TestMatrix::testMatrixProperties() {
+	try {
+		checkSizes();
+		checkSizeAccessibility();
+	}
+	catch (Exception& exception) {
+		std::cout << "Class Matrix has failed its tests.  \nReason: ";
+		std::cout << exception.what();
+		PASSED_TESTS = false;
+	}
+}
+
+void TestMatrix::checkSizes() {
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		unsigned int numberOfRows = indexGenerator.randomInt();
+		unsigned int numberOfColumns = indexGenerator.randomInt();
+		Matrix matrix(numberOfRows, numberOfColumns);
+		if (numberOfRows != matrix.numberOfRows()) {
+			throw AssignmentError("matrix.numberOfRows()", matrix.numberOfRows(), numberOfRows);
+		}
+		if (numberOfColumns != matrix.numberOfColumns()) {
+			throw AssignmentError("matrix.numberOfColumns()", matrix.numberOfColumns(), numberOfColumns);
+		}
+		if (numberOfColumns * numberOfRows != matrix.numberOfEntries()) {
+			throw NumericalError(std::to_string(numberOfRows) + "x" + std::to_string(numberOfColumns) +
+				" Matrix has matrix.numberOfEntries = " + std::to_string(matrix.numberOfEntries()) + "\n");
+		}
+	}
+}
+
+void TestMatrix::checkSizeAccessibility() {
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		unsigned int numberOfRows = indexGenerator.randomInt();
+		unsigned int numberOfColumns = indexGenerator.randomInt();
+		Matrix matrix(numberOfRows, numberOfColumns);
+		Complex randomValue = valueGenerator.randomComplex();
+		auto lastRow = numberOfRows - 1;
+		matrix(lastRow, 0) = randomValue;
+		if (matrix(lastRow, 0) != randomValue) {
+			throw NumericalError("Matrix with " + std::to_string(numberOfRows) + " rows unable to access last row!\n");
+		}
+		auto lastColumn = numberOfColumns - 1;
+		matrix(0, lastColumn) = randomValue;
+		if (matrix(0, lastColumn) != randomValue) {
+			throw NumericalError("Matrix with " + std::to_string(numberOfColumns) + " columns unable to access last column!\n");
 		}
 	}
 }
