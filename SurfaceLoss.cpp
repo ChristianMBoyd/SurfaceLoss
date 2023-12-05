@@ -27,6 +27,6 @@ void testComponents() {
 
 void holdOutputWindow() {
     std::cout << "Enter anything to close." << std::endl;
-    std::string inputNeededToClose;
+    String inputNeededToClose;
     std::cin >> inputNeededToClose;
 }

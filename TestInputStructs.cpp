@@ -40,14 +40,13 @@ void TestInputStructs::checkPlanarWavevectorFunctions() {
 		magnitude = std::sqrt(qx * qx + qy * qy);
 		q = PlanarWavevector(qx, qy);
 		if (!twoDoublesAreEqual(qx, q.qx)) {
-			throw AssignmentError("q.qx", q.qx, qx);
+			throw NumericalError("q.qx", q.qx, qx);
 		}
 		if (!twoDoublesAreEqual(qy, q.qy)) {
-			throw AssignmentError("q.qy", q.qy, qy);
+			throw NumericalError("q.qy", q.qy, qy);
 		}
 		if (!twoDoublesAreEqual(magnitude, q.magnitude)) {
-			throw NumericalError("q.magnitude = " + std::to_string(q.magnitude) + " instead of " 
-				+ std::to_string(magnitude) + " !\n");
+			throw NumericalError("q.magnitude", q.magnitude, magnitude);
 		}
 	}
 }
@@ -72,13 +71,13 @@ void TestInputStructs::checkMassFunctions() {
 		mz = randomGenerator.randomDouble();
 		mass = Mass(mx, mz);
 		if (!twoDoublesAreEqual(mx, mass.mx)) {
-			throw AssignmentError("mass.mx", mass.mx, mx);
+			throw NumericalError("mass.mx", mass.mx, mx);
 		}
 		if (!twoDoublesAreEqual(mz, mass.mz)) {
-			throw AssignmentError("mass.mz", mass.mz, mz);
+			throw NumericalError("mass.mz", mass.mz, mz);
 		}
 		if (!twoDoublesAreEqual(1.0, mass.mx * mass.my)) {
-			throw NumericalError("mass.my = " + std::to_string(mass.my)
+			throw NumericalError("mass.my = " + stringConverter.toString(mass.my)
 				+ " is not normalized according to mass.mx * mass.my = 1!\n");
 		}
 	}
@@ -105,13 +104,13 @@ void TestInputStructs::checkDielectricConstantFunctions() {
 		epsz = randomGenerator.randomDouble();
 		eps = DielectricConstant(epsx, epsy, epsz);
 		if (!twoDoublesAreEqual(epsx, eps.epsx)) {
-			throw AssignmentError("eps.epsx", eps.epsx, epsx);
+			throw NumericalError("eps.epsx", eps.epsx, epsx);
 		}
 		if (!twoDoublesAreEqual(epsy, eps.epsy)) {
-			throw AssignmentError("eps.epsy", eps.epsy, epsy);
+			throw NumericalError("eps.epsy", eps.epsy, epsy);
 		}
 		if (!twoDoublesAreEqual(epsz, eps.epsz)) {
-			throw AssignmentError("eps.epsz", eps.epsz, epsz);
+			throw NumericalError("eps.epsz", eps.epsz, epsz);
 		}
 	}
 }
@@ -137,13 +136,13 @@ void TestInputStructs::checkModelParametersFunctions() {
 		plasmaToFermiRatio = randomGenerator.randomDouble();
 		modelParameters = ModelParameters(frequency, linewidth, plasmaToFermiRatio);
 		if (!twoDoublesAreEqual(frequency, modelParameters.frequency)) {
-			throw AssignmentError("modelParameters.frequency", modelParameters.frequency, frequency);
+			throw NumericalError("modelParameters.frequency", modelParameters.frequency, frequency);
 		}
 		if (!twoDoublesAreEqual(linewidth, modelParameters.linewidth)) {
-			throw AssignmentError("modelParameters.linewidth", modelParameters.linewidth, linewidth);
+			throw NumericalError("modelParameters.linewidth", modelParameters.linewidth, linewidth);
 		}
 		if (!twoDoublesAreEqual(plasmaToFermiRatio, modelParameters.plasmaToFermiRatio)) {
-			throw AssignmentError("modelParameters.plasmaToFermiRatio", modelParameters.plasmaToFermiRatio, plasmaToFermiRatio);
+			throw NumericalError("modelParameters.plasmaToFermiRatio", modelParameters.plasmaToFermiRatio, plasmaToFermiRatio);
 		}
 	}
 }
@@ -168,10 +167,10 @@ void TestInputStructs::checkNumericalParametersFunctions() {
 		cutoffWavevector = randomGenerator.randomDouble();
 		numericalParameters = NumericalParameters(L, cutoffWavevector);
 		if (!twoDoublesAreEqual(L, numericalParameters.L)) {
-			throw AssignmentError("numericalParameters.L", numericalParameters.L, L);
+			throw NumericalError("numericalParameters.L", numericalParameters.L, L);
 		}
 		if (!twoDoublesAreEqual(cutoffWavevector, numericalParameters.cutoffWavevector)) {
-			throw AssignmentError("numericalParameters.cutoffWavevector", numericalParameters.cutoffWavevector,
+			throw NumericalError("numericalParameters.cutoffWavevector", numericalParameters.cutoffWavevector,
 				cutoffWavevector);
 		}
 	}

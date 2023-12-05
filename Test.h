@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Complex.h"
 #include "NumericalError.h"
-#include "AssignmentError.h"
+#include "StringConverter.h"
 
 // basic testing utils, specific tests should be inherited
 
@@ -12,6 +12,7 @@ private:
 
 protected:
 	bool PASSED_TESTS = true; // a test must actively fail to flag an error, default is passing
+	StringConverter stringConverter;
 	
 public:
 	Test();

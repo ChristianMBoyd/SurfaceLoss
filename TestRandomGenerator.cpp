@@ -56,8 +56,8 @@ void TestRandomGenerator::checkRandomDoubles() {
 	}
 	averageDouble /= NUMBER_OF_TESTS;
 	if (!averageDoubleIsValid(averageDouble)) {
-		throw NumericalError("RandomGenerator generates random doubles with average " + std::to_string(averageDouble) + " after " +
-			std::to_string(NUMBER_OF_TESTS) + " runs!\n");
+		throw NumericalError("RandomGenerator generates random doubles with average " + stringConverter.toString(averageDouble) 
+			+ " after " + stringConverter.toString(NUMBER_OF_TESTS) + " runs!\n");
 	}
 }
 

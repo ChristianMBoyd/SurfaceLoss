@@ -64,7 +64,7 @@ void TestMatrix::checkAccessors() {
 		Complex randomComplex = valueGenerator.randomComplex();
 		matrix(randomRow, randomColumn) = randomComplex;
 		if (!twoComplexesAreEqual(matrix(randomRow, randomColumn), randomComplex)) {
-			throw AssignmentError("matrix(randomRow, randomColumn)", matrix(randomRow, randomColumn), randomComplex);
+			throw NumericalError("matrix(randomRow, randomColumn)", matrix(randomRow, randomColumn), randomComplex);
 		}
 	}
 }
@@ -318,16 +318,18 @@ void TestMatrix::checkSizes() {
 	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
 		unsigned int numberOfRows = indexGenerator.randomInt();
 		unsigned int numberOfColumns = indexGenerator.randomInt();
+		unsigned int numberOfEntries = numberOfRows * numberOfColumns;
 		Matrix matrix(numberOfRows, numberOfColumns);
 		if (numberOfRows != matrix.numberOfRows()) {
-			throw AssignmentError("matrix.numberOfRows()", matrix.numberOfRows(), numberOfRows);
+			throw NumericalError("matrix.numberOfRows()", matrix.numberOfRows(), numberOfRows);
 		}
 		if (numberOfColumns != matrix.numberOfColumns()) {
-			throw AssignmentError("matrix.numberOfColumns()", matrix.numberOfColumns(), numberOfColumns);
+			throw NumericalError("matrix.numberOfColumns()", matrix.numberOfColumns(), numberOfColumns);
 		}
-		if (numberOfColumns * numberOfRows != matrix.numberOfEntries()) {
-			throw NumericalError(std::to_string(numberOfRows) + "x" + std::to_string(numberOfColumns) +
-				" Matrix has matrix.numberOfEntries = " + std::to_string(matrix.numberOfEntries()) + "\n");
+		if (numberOfEntries != matrix.numberOfEntries()) {
+			String matrixDimensions = stringConverter.toString(numberOfRows) + "x" + stringConverter.toString(numberOfColumns);
+			throw NumericalError(matrixDimensions + " Matrix returns matrix.numberOfEntries", matrix.numberOfEntries(),
+				numberOfEntries);
 		}
 	}
 }
@@ -341,12 +343,12 @@ void TestMatrix::checkSizeAccessibility() {
 		auto lastRow = numberOfRows - 1;
 		matrix(lastRow, 0) = randomValue;
 		if (matrix(lastRow, 0) != randomValue) {
-			throw NumericalError("Matrix with " + std::to_string(numberOfRows) + " rows unable to access last row!\n");
+			throw NumericalError("Matrix with " + stringConverter.toString(numberOfRows) + " rows unable to access last row!\n");
 		}
 		auto lastColumn = numberOfColumns - 1;
 		matrix(0, lastColumn) = randomValue;
 		if (matrix(0, lastColumn) != randomValue) {
-			throw NumericalError("Matrix with " + std::to_string(numberOfColumns) + " columns unable to access last column!\n");
+			throw NumericalError("Matrix with " + stringConverter.toString(numberOfColumns) + " columns unable to access last column!\n");
 		}
 	}
 }

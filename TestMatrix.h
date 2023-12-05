@@ -2,6 +2,7 @@
 #include "Test.h"
 #include "Matrix.h"
 #include "RandomGenerator.h"
+#include "StringConverter.h"
 
 class TestMatrix : public Test {
 private:
@@ -48,7 +49,6 @@ private:
 	void checkSizes();
 	void checkSizeAccessibility();
 
-
-	// Next: implement (and test!) transposeInPlace(), transpose(), and other helpful functions
-	// Consider: implementing a string converter to simplify Complex error string generation
+	// Next: implement (and test!) transposeInPlace(), transpose(), determinant(), and other helpful functions
+	// Then: implement a linear equation class with .solve() method, via PartialPivLU or similar backend
 };

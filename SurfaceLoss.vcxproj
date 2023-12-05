@@ -148,15 +148,16 @@
     <ClCompile Include="Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssignmentError.h" />
+    <ClInclude Include="NumericalError.h" />
     <ClInclude Include="Complex.h" />
     <ClInclude Include="DielectricConstant.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="RandomGenerator.h" />
+    <ClInclude Include="String.h" />
+    <ClInclude Include="StringConverter.h" />
     <ClInclude Include="TestMatrix.h" />
     <ClInclude Include="Mass.h" />
     <ClInclude Include="ModelParameters.h" />
-    <ClInclude Include="NumericalError.h" />
     <ClInclude Include="NumericalParameters.h" />
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="PlanarWavevector.h" />

@@ -44,9 +44,6 @@
     <ClInclude Include="TestRandomGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NumericalError.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Mass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -80,10 +77,16 @@
     <ClInclude Include="Test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AssignmentError.h">
+    <ClInclude Include="NumericalError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StringConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="String.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
