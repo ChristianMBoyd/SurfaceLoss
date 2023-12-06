@@ -49,6 +49,9 @@ private:
 	void checkSizes();
 	void checkSizeAccessibility();
 
-	// Next: implement (and test!) transposeInPlace(), transpose(), determinant(), and other helpful functions
-	// Then: implement a linear equation class with .solve() method, via PartialPivLU or similar backend
+	void testTransposition();
+	void checkTranspose();
+	void checkTransposeInPlace();
+
+	// Next: implement the LinearEquation class with .solve() method, via PartialPivLU or similar backend
 };

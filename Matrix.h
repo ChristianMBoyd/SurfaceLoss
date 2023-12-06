@@ -12,7 +12,7 @@ public:
 	template<typename derivedMatrixType>
 	Matrix(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);
 
-	// basic operator overloads
+	// wrapped operator overloads
 	template<typename derivedMatrixType>
 	Matrix& operator=(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression);
 	Complex& operator()(unsigned int row, unsigned int column);
@@ -42,7 +42,7 @@ Matrix operator*(const Complex complex, const Matrix& matrix);
 Matrix operator*(const double realScalar, const Matrix& matrix);
 Matrix operator*(const int realScalar, const Matrix& matrix);
 
-// templated function definitions
+// template function definitions
 template<typename derivedMatrixType>
 inline Matrix::Matrix(const Eigen::MatrixBase<derivedMatrixType>& eigenExpression) : Eigen::MatrixXcd(eigenExpression) {}
 

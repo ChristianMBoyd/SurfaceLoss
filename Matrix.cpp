@@ -2,7 +2,7 @@
 
 Matrix::Matrix(unsigned int rows, unsigned int columns) : Eigen::MatrixXcd(rows, columns) {}
 
-// accessors: following Eigen notation of "m[i][j]" -> m(i, j) is the ith row and jth column of m
+// accessors: following Eigen notation of "matrix[i][j]" -> matrix(i, j) access the ith row and jth column
 Complex& Matrix::operator()(unsigned int row, unsigned int column) {
 	return this->Eigen::MatrixXcd::operator()(row, column);
 }
@@ -53,6 +53,14 @@ unsigned int Matrix::numberOfColumns() const {
 
 unsigned int Matrix::numberOfEntries() const {
 	return this->size();
+}
+
+void Matrix::transposeInPlace() {
+	this->Eigen::MatrixXcd::transposeInPlace();
+}
+
+const Matrix Matrix::transpose() const {
+	return this->Eigen::MatrixXcd::transpose();
 }
 
 // non-member functions

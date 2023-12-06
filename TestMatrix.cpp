@@ -15,6 +15,7 @@ void TestMatrix::runTests() {
 	testSubtraction();
 	testMatrixMultiplication();
 	testMatrixProperties();
+	testTransposition();
 
 	if (PASSED_TESTS) {
 		std::cout << "All test cases passed.\n";
@@ -349,6 +350,43 @@ void TestMatrix::checkSizeAccessibility() {
 		matrix(0, lastColumn) = randomValue;
 		if (matrix(0, lastColumn) != randomValue) {
 			throw NumericalError("Matrix with " + stringConverter.toString(numberOfColumns) + " columns unable to access last column!\n");
+		}
+	}
+}
+
+void TestMatrix::testTransposition() {
+	try {
+		checkTranspose();
+		checkTransposeInPlace();
+	}
+	catch (Exception& exception) {
+		std::cout << "Class Matrix has failed its tests.  \nReason: ";
+		std::cout << exception.what();
+		PASSED_TESTS = false;
+	}
+}
+
+void TestMatrix::checkTranspose() {
+	Matrix matrix = randomMatrix();
+	Matrix transposeMatrix = matrix.transpose();
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		unsigned int row = indexGenerator.randomInt() % matrix.numberOfRows();
+		unsigned int column = indexGenerator.randomInt() % matrix.numberOfColumns();
+		if (!twoComplexesAreEqual(matrix(row, column), transposeMatrix(column, row))) {
+			throw NumericalError("matrix.transpose() does not have mirror rows and columns!\n");
+		}
+	}
+}
+
+void TestMatrix::checkTransposeInPlace() {
+	Matrix matrix = randomMatrix();
+	Matrix transposeMatrix = matrix;
+	transposeMatrix.transposeInPlace();
+	for (int counter = 0; counter < NUMBER_OF_TESTS; counter++) {
+		unsigned int row = indexGenerator.randomInt() % matrix.numberOfRows();
+		unsigned int column = indexGenerator.randomInt() % matrix.numberOfColumns();
+		if (!twoComplexesAreEqual(matrix(row, column), transposeMatrix(column, row))) {
+			throw NumericalError("matrix.transposeInPlace() does not cause matrix to have mirrored rows and columns!\n");
 		}
 	}
 }
